@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Data
 {
-    public class ECommerceContext :IdentityDbContext
+    public class ECommerceContext : IdentityDbContext<ApplicationUser>
     {
         public ECommerceContext(DbContextOptions<ECommerceContext> options):base(options)
         {

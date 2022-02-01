@@ -1,5 +1,7 @@
 using E_Commerce.Data;
+using E_Commerce.Helpers;
 using E_Commerce.Repository;
+using E_Commerce.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,11 +31,33 @@ namespace E_Commerce
         {
             services.AddDbContext<ECommerceContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));            
             services.AddControllersWithViews();
+
+            //reporitories registration here
+
             services.AddScoped<IAccountRepository, AccountRepository>();
 
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+
+            services.ConfigureApplicationCookie(configure => {
+                configure.LoginPath = Configuration["Application:LoginPath"];
+            });
+
+            services.Configure<IdentityOptions>(options =>
+            {
+
+/*                we can configure here password and identity framwork configuration like tokan
+ *                
+ *                options.Password.RequireDigit = true;
+                options.Password.RequireDigit = true;*/
+
+            });
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserCalimsPrincipalFactory>();
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ECommerceContext>();
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,9 +78,9 @@ namespace E_Commerce
 
             app.UseRouting();
 
-            app.UseAuthorization();
 
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
