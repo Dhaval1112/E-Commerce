@@ -12,5 +12,12 @@ namespace E_Commerce.Repository
         Task<SignInResult> PasswordSignInAsync(LoginModel loginModel);
         Task SignOutAsync();
         Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel model);
+        Task<IdentityResult> ConfirmEmailAsync(string uid, string token);
+        Task GenerateEmailConfirmationTokenAsync(ApplicationUser user);
+        Task<ApplicationUser> GetUSerByEmailAsync(string email);
+        Task GeneratePasswordResetTokenAsync(ApplicationUser user);
+        Task<IdentityResult> ResetPasswordAsync(ResetPaswordModel model);
+        Task<UserProfileModel> GetLogedInUser();
+        Task UpdateProfile(UserProfileModel user);
     }
 }

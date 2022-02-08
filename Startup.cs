@@ -39,25 +39,28 @@ namespace E_Commerce
 
 
             services.ConfigureApplicationCookie(configure => {
-                configure.LoginPath = Configuration["Application:LoginPath"];
+                configure.LoginPath = Configuration["Application:LoginPath"]; 
             });
+                //Configuration["Application:LoginPath"];
 
             services.Configure<IdentityOptions>(options =>
             {
 
-/*                we can configure here password and identity framwork configuration like tokan
- *                
- *                options.Password.RequireDigit = true;
-                options.Password.RequireDigit = true;*/
+                /*                we can configure here password and identity framwork configuration like tokan
+                 *                
+                 *                options.Password.RequireDigit = true;
+                                options.Password.RequireDigit = true;*/
+                options.SignIn.RequireConfirmedEmail = true;
 
             });
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserCalimsPrincipalFactory>();
 
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ECommerceContext>();
+                .AddEntityFrameworkStores<ECommerceContext>().AddDefaultTokenProviders();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,8 +81,8 @@ namespace E_Commerce
 
             app.UseRouting();
 
-
             app.UseAuthentication();
+
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

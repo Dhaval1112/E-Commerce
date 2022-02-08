@@ -8,8 +8,9 @@
             Hello, @(User.FindFirst("UserFirstName").Value+" "+ @User.FindFirst("UserLastName").Value)
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+            <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a></li>
             <li><a class="dropdown-item" asp-controller="Account" asp-action="changePassword">Change password</a></li>
+            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
         </ul>
     </div>
 }

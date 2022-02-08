@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Models;
 using E_Commerce.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,28 @@ namespace E_Commerce.Controllers
         public AccountController(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
+        }
+
+
+        // For getting profile details
+        public async Task<IActionResult> Profile(){
+
+            var user = await _accountRepository.GetLogedInUser();
+            return View(user);
+
+        }
+        
+        // For Updating profile details
+        [HttpPost]
+        public async Task<IActionResult> Profile(UserProfileModel user){
+
+            if (ModelState.IsValid)
+            {
+                
+
+            }
+            return View(user);
+
         }
 
         /*Login for returning view*/
@@ -39,8 +62,18 @@ namespace E_Commerce.Controllers
                     }
                     return RedirectToAction("Index","Home");
                 }
-                /*ModelState.Clear();   */
-                ModelState.AddModelError("","Invalid credentials..");
+
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError("","Not allowed to login please confirm your email..");
+
+                }
+                else
+                {
+
+                    /*ModelState.Clear();   */
+                    ModelState.AddModelError("","Invalid credentials..");
+                }
             }
 
             return View();
@@ -69,18 +102,19 @@ namespace E_Commerce.Controllers
                         ModelState.AddModelError("", error.Description);
 
                     }
+                    return View(userModel);
                 }
                 else
                 {
                     ModelState.Clear();
-                    ViewBag.isSuccess = true;
-                }
+                    return RedirectToAction("ConfirmEmail", new { email = userModel.Email });                    
+                }   
             }
 
             
             return View();
         }
-
+             
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
@@ -119,6 +153,116 @@ namespace E_Commerce.Controllers
 
             }
             return View(changePassword);
+        }
+
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
+        {
+            EmailConfirmModel model = new EmailConfirmModel
+            {
+                Email = email,
+            };
+
+            if(!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
+            {
+                token = token.Replace(' ', '+');
+                var result=await _accountRepository.ConfirmEmailAsync(uid, token);
+                if (result.Succeeded)
+                {
+                    model.EmailVarified = true;
+                }
+            }
+            return View(model);
+        }
+
+        
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(EmailConfirmModel emailConfirmModel)
+        {
+            var user = await _accountRepository.GetUSerByEmailAsync(emailConfirmModel.Email);
+            if(user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    emailConfirmModel.IsConfirmed = true;
+                    return View(emailConfirmModel); 
+                }
+                await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+                emailConfirmModel.EmailSent = true;
+                ModelState.Clear();
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong..!");
+            }
+            return View(emailConfirmModel);
+        }
+
+
+        [AllowAnonymous,HttpGet("forgot-password"),]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var user = await _accountRepository.GetUSerByEmailAsync(model.Email);
+                if(user != null)
+                {
+                    await _accountRepository.GeneratePasswordResetTokenAsync(user);
+
+
+                }
+
+                ModelState.Clear();
+                model.EmailSent = true;
+            }
+            return View(model);
+        }
+
+        [AllowAnonymous, HttpGet("reset-password"),]
+        public IActionResult ResetPassword(string uid,string token)
+        {
+            ResetPaswordModel resetPaswordModel = new ResetPaswordModel
+            {
+                UserId = uid,
+                Token = token
+            };
+            return View(resetPaswordModel);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> resetPassword(ResetPaswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Token=model.Token.Replace(' ', '+');
+                var result = await _accountRepository.ResetPasswordAsync(model);
+
+                if (result.Succeeded)
+                {
+                    ModelState.Clear();
+                    model.IsSuccess = true;
+                    return View(model);
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("",error.Description);
+                    }
+                }
+                
+
+            }
+            return View(model);
         }
 
     }
