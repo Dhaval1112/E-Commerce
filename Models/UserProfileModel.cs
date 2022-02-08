@@ -25,6 +25,8 @@ namespace E_Commerce.Models
         public string EmailAddress { get; set; }
         [Required, Display(Name ="Date Of Birth"), DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
+
+        public bool IsSuccess { get; set; }
        
     }
 }

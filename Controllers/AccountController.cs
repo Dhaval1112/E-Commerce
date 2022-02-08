@@ -33,7 +33,18 @@ namespace E_Commerce.Controllers
 
             if (ModelState.IsValid)
             {
-                
+                var result =await _accountRepository.UpdateProfile(user);
+                if (result.Succeeded)
+                {
+                    user.IsSuccess = true;
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("",error.Description);
+                    }
+                }
 
             }
             return View(user);

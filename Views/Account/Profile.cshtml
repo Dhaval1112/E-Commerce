@@ -10,15 +10,29 @@
         background-color: #D3D3D3;
         color: black;
     }
+
     .lgGray {
         background-color: #F5F5F8;
     }
 </style>
 
 
+
 <div class="container">
 
+    @if (Model?.IsSuccess == true)
+    {
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+            
+            Profile data updated Successfully done..! 
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
+        Model.IsSuccess = false;
+    }
 
     <h1>Profile</h1>
 
@@ -98,8 +112,8 @@
                                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                             </div>
                         </div>
-                        
-                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button mb-3" type="submit">Save Profile</button></div>
+
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button mb-3" type="submit">Save Changes</button></div>
                     </form>
 
 

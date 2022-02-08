@@ -118,11 +118,16 @@ namespace E_Commerce.Repository
         }
 
 
-        public async Task UpdateProfile(UserProfileModel user)
+        public async Task<IdentityResult> UpdateProfile(UserProfileModel user)
         {
             var oldUser = await GetCurrentUser();
             oldUser.DateOfBirth = user.DateOfBirth;
-            await _userManager.UpdateAsync(oldUser);
+            oldUser.FirstName = user.FirstName;
+            oldUser.LastName = user.LastName;
+            var result =await _userManager.UpdateAsync(oldUser);
+            
+            return result;
+            
         }
 
         // Generate forgot password async will generate token for forgot passwod and threw it we can recover password

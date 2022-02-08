@@ -18,6 +18,6 @@ namespace E_Commerce.Repository
         Task GeneratePasswordResetTokenAsync(ApplicationUser user);
         Task<IdentityResult> ResetPasswordAsync(ResetPaswordModel model);
         Task<UserProfileModel> GetLogedInUser();
-        Task UpdateProfile(UserProfileModel user);
+        Task<IdentityResult> UpdateProfile(UserProfileModel user);
     }
 }
