@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E_Commerce.Areas.Admin.Data;
 
 namespace E_Commerce.Data
 {
@@ -16,6 +17,9 @@ namespace E_Commerce.Data
 
         // this name of the object will be saved as table name in this case Users
         public DbSet<User> Usersdata { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

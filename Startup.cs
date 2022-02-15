@@ -1,3 +1,4 @@
+using E_Commerce.Areas.Admin.Repository;
 using E_Commerce.Data;
 using E_Commerce.Helpers;
 using E_Commerce.Repository;
@@ -61,6 +62,9 @@ namespace E_Commerce
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +90,14 @@ namespace E_Commerce
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                      name: "areas",
+                      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    );
+                });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,0 +1,64 @@
+﻿@model E_Commerce.Areas.Admin.Models.CategoryModel
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+
+    @if (ViewBag?.IsSuccess == true)
+    {
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+            Category added Successfully done..!
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        ViewBag.IsSuccess = false;
+    }
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data"  asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="CetegoryDescription" class="control-label"></label>
+                <input asp-for="CetegoryDescription" class="form-control" />
+                <span asp-validation-for="CetegoryDescription" class="text-danger"></span>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <label asp-for="CoverImage"></label>
+                <input asp-for="CoverImage" class="form-control-file" id="files">
+                <span asp-validation-for="CoverImage" class="text-danger"></span>
+                <img id="image" height="80" width="80"/>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('files').onchange = function () {
+      var src = URL.createObjectURL(this.files[0])
+      document.getElementById('image').src = src
+    }
+</script>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -30,20 +30,7 @@ namespace E_Commerce.Controllers
         
         public IActionResult Index()
         {
-            /*UserEmailOptions userEmailOptions = new UserEmailOptions()
-            {
-                Subject = "Testing email",
-                ToEmail = "dhavalvaghela1112@gmail.com",
-                PlaceHolders = new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("{{UserName}}","Dhaval")
-                }
-            };
-
-
-            await _emailService.sendTestEmail(userEmailOptions);*/
-
-
+            // was last Working commit ::  Added profile page with edit functionality 
             var userId = _userService.GetUserId();
             return View();
         }
