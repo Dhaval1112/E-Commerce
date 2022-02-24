@@ -21,5 +21,6 @@ namespace E_Commerce.Areas.Admin.Data
         public string CoverImageUrl { get; set; }
 
         public Category Category { get; set; }
+        public ICollection<ProductGallery> productGallery { get; set;    }
     }
 }

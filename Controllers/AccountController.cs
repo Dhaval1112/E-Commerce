@@ -66,9 +66,18 @@ namespace E_Commerce.Controllers
                 var result=await _accountRepository.PasswordSignInAsync(model);
                 if (result.Succeeded)
                 {
+                    var roles = await _accountRepository.GetRoleByEmail(model.Email);
+                    
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
-                        return LocalRedirect(returnUrl);
+                        if (!roles.Contains("User"))
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToRoute(new { action = "Index", controller = "Dashboard", area = "admin" });
+                        }
 
                     }
                     return RedirectToAction("Index","Home");

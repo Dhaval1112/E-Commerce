@@ -38,8 +38,46 @@ namespace E_Commerce.Areas.Admin.Repository
             return _context.Categories.Select(category => new CategoryModel()
             {
                 CategoryName = category.CategoryName,
+                CetegoryDescription = category.CetegoryDescription,
+                CoverImageUrl = category.CoverImageUrl,
                 Id = category.Id,
             }).ToList();
+        }
+
+        
+        public CategoryModel GetCategory(int id)
+        {
+            var findCategory = _context.Categories.Select(category => new CategoryModel()
+            {
+                CategoryName = category.CategoryName,
+                CetegoryDescription = category.CetegoryDescription,
+                CoverImageUrl = category.CoverImageUrl,
+                Id = category.Id
+            }).Where(md=>md.Id ==id).FirstOrDefault() ;
+
+            return findCategory;
+        }
+
+        public async Task<bool> UpdateCategory(CategoryModel category)
+        {
+            try
+            {
+
+                var oldCategory = await _context.Categories.FindAsync(category.Id);
+                oldCategory.CategoryName = category.CategoryName;
+                oldCategory.CetegoryDescription = category.CetegoryDescription;
+                oldCategory.CoverImageUrl = category.CoverImageUrl;
+                _context.Categories.Update(oldCategory);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            
+
         }
     }
 }

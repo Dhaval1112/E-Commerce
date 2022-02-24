@@ -1,0 +1,98 @@
+﻿@model IEnumerable<CategoryModel>;
+
+
+
+<script>
+
+    function deleteFunction(str, category) {
+        let text = "Wourl you like to delete " + category;
+        if (confirm(text) == true) {
+            text = "You pressed OK!";
+            window.location.href = str;
+        } else {
+            text = "You canceled!";
+        }
+
+    }
+
+    function editFunction(str, product) {
+        let text = "Wourl you like to Edit " + product;
+        if (confirm(text) == true) {
+            text = "You pressed OK!";
+            window.location.href = str;
+        } else {
+            text = "You canceled!";
+        }
+
+    }
+
+    function deletedata() {
+        alert("Get called")
+    }
+</script>
+
+
+
+<h3 class="py-3">All products</h3>
+
+@if (TempData["IsUpdated"] != null)
+{
+
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+        Product data updated successfully done..!
+        <div class="me-auto">
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+}
+@if (Model.Count() > 0)
+{
+
+    <table class="table  table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Category Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                int count = 1;
+            }
+            @foreach (var category in Model)
+            {
+                <tr class="align-middle">
+
+                    <th scope="row">@(count++)</th>
+                    <td class="text-center"><img src="@category.CoverImageUrl" height="50" width="50" /></td>
+                    <td>@category.CategoryName</td>
+                    <td>@category.CetegoryDescription</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="editFunction('@Url.Action("EditCategory","Category", new { Id= category.Id })', '@category.CategoryName')">Edit</button> |
+                        <button class="btn btn-danger btn-sm" onclick="deleteFunction('@Url.Action("DeleteCategory","Category", new { Id= category.Id })', '@category.CategoryName')">Delete</button>
+
+                    </td>
+
+                </tr>
+            }
+
+
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    <h4>No elements found</h4>
+}
+
+
+

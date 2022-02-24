@@ -5,16 +5,18 @@
 <style>
     .bd {
         border: 2px solid black;
-        margin-right:10px;
-       
+        margin-right: 10px;
     }
 </style>
 
 
 <h4>ProductModel</h4>
 <hr />
+@if (Model.ProductName != null)
+{
 <div class="row">
-    @if (ViewBag?.IsSuccess == true)
+
+    @if (ViewBag?.IsUpdated == true)
     {
         <div class="alert alert-success d-flex align-items-center" role="alert">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
@@ -25,13 +27,45 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
-        ViewBag.IsSuccess = false;
+        ViewBag.IsUpdated = false;
     }
+@*
+    @if (Model.IsUpdated == true)
+    {
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
 
+            Product updated Successfully done..!
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        Model.IsUpdated = null;
+    }
+    
+    else if (ViewBag.IsUpdated == false)
+    {
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+            Something went wrong try again..!
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @Model.IsUpdated = null;
+    }
+    *@
 
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+
+
+        <img src="@Model.CoverImageUrl" alt="Cover image" height="200" width="200" />
+        <form asp-action="EditProduct" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="CoverImageUrl" type="hidden" />
 
             <div class="form-group">
                 <label asp-for="ProductName" class="control-label"></label>
@@ -50,10 +84,11 @@
 
             <div class="form-group">
                 <label asp-for="CategoryId" class="form-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="_categoryRepository.AllCategories().Select(x=> new SelectListItem() {
-                                    Text=x.CategoryName,
-                                    Value=x.Id.ToString()
-                                   } )">
+                <select asp-for="CategoryId" class="form-control" asp-items="_categoryRepository.AllCategories().Select(x => new SelectListItem()
+                   {
+                       Text = x.CategoryName,
+                       Value = x.Id.ToString()
+                   })">
 
                     <option value="">Please choose product's Category..!</option>
 
@@ -103,49 +138,54 @@
 
             <div class="form-group">
                 <label asp-for="GalleryFiles" class="control-label"></label><br />
-                <input asp-for="GalleryFiles"  class="form-control-file" onchange="preview_image()" id="files" />
+                <input asp-for="GalleryFiles" class="form-control-file" onchange="preview_image()" id="files" />
                 <span asp-validation-for="GalleryFiles" class="text-danger"></span>
-            
+
                 <div id="image_preview" class="d-flex flex-row mt-2">
 
                 </div>
             </div>
 
-            
+
             <br />
 
             <div class="form-group">
-                <input type="submit" value="Create Product" class="btn btn-primary" />
+                <input type="submit" value="Update Product" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 
-<script>
-    document.getElementById('file').onchange = function () {
-        $('#image_preview_one').empty();
-        var src = URL.createObjectURL(this.files[0])
-        $('#image_preview_one').append("<img height=100 width=100 class='bd' src='" + src + "'>");
-      //document.getElementById('image').src = src
-    }
-</script>
-
-
-<script>
-    function preview_image() {
-        var total_file = document.getElementById("files").files.length;
-            $('#image_preview').empty();
-        for (var i = 0; i < total_file; i++) {
-
-            $('#image_preview').append("<img height=100 width=100 class='bd' src='" + URL.createObjectURL(event.target.files[i]) + "'>");
+    <script>
+        document.getElementById('file').onchange = function () {
+            $('#image_preview_one').empty();
+            var src = URL.createObjectURL(this.files[0])
+            $('#image_preview_one').append("<img height=100 width=100 class='bd' src='" + src + "'>");
+          //document.getElementById('image').src = src
         }
-    }
-</script>
+    </script>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+    <script>
+        function preview_image() {
+            var total_file = document.getElementById("files").files.length;
+                $('#image_preview').empty();
+            for (var i = 0; i < total_file; i++) {
+
+                $('#image_preview').append("<img height=100 width=100 class='bd' src='" + URL.createObjectURL(event.target.files[i]) + "'>");
+            }
+        }
+    </script>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+else
+{
+    <h3>No product found </h3>
+    <a asp-controller="Product" asp-area="admin" asp-action="GetAllProducts">Go back</a>
+}
 
 

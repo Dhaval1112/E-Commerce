@@ -105,7 +105,18 @@ namespace E_Commerce.Repository
         public async Task<ApplicationUser> GetUSerByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
+
         }
+
+
+        // For getting role
+        public async Task<IList<string>> GetRoleByEmail(string email)
+        { 
+            var user = await _userManager.FindByEmailAsync(email);
+            var role = await _userManager.GetRolesAsync(user);
+            return role;
+        }
+
 
         // for regenerating out token and send that to user so that he/she can confirm their email account
         public async Task GenerateEmailConfirmationTokenAsync(ApplicationUser user)
@@ -194,8 +205,8 @@ namespace E_Commerce.Repository
         // Login into account with password
         public async Task<SignInResult> PasswordSignInAsync(LoginModel loginModel)
         {
-            return await _signInManager.PasswordSignInAsync(loginModel.Email, loginModel.Password, loginModel.RememberMe, false);
-
+            var resultSignIn= await _signInManager.PasswordSignInAsync(loginModel.Email, loginModel.Password, loginModel.RememberMe, false);
+            return resultSignIn;
         }
 
         //For logout sign in Users

@@ -19,6 +19,7 @@ namespace E_Commerce.Data
         public DbSet<User> Usersdata { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGallery> productGalleries { get; set; }
 
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

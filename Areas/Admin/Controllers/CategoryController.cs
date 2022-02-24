@@ -30,18 +30,35 @@ namespace E_Commerce.Areas.Admin.Controllers
             return View();
         }
 
+
+        private async Task UploadImageCover(CategoryModel model)
+        {
+            var folder = "Category/Cover/";
+            folder += (Guid.NewGuid().ToString() + "_" + model.CoverImage.FileName);
+            var serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
+
+            await model.CoverImage.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+
+            model.CoverImageUrl = "/" + folder;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CategoryModel model)
         {
+
             if (ModelState.IsValid) 
             {
-                var folder = "Category/Cover/";
+                /*var folder = "Category/Cover/";
                 folder += (Guid.NewGuid().ToString() +"_"+ model.CoverImage.FileName); 
                 var serverFolder = Path.Combine(_webHostEnvironment.WebRootPath,folder);
 
                 await model.CoverImage.CopyToAsync(new FileStream(serverFolder,FileMode.Create) );
 
-                model.CoverImageUrl = "/"+folder;
+                model.CoverImageUrl = "/"+folder;*/
+                if(model.CoverImage != null)
+                {
+                    await UploadImageCover(model);
+                }
                 
                 var result = await _categoryRepository.CreateCategoryAsync(model);
 
@@ -55,6 +72,50 @@ namespace E_Commerce.Areas.Admin.Controllers
 
             }
             return View();
+        }
+
+        public IActionResult GetAllCategories()
+        {
+            var categories = _categoryRepository.AllCategories();
+
+            return View(categories);
+        }
+
+
+        public IActionResult EditCategory(int id)
+        {
+            var category = _categoryRepository.GetCategory(id);
+            return View(category);
+            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(CategoryModel category)
+        {
+            //var category = _categoryRepository.GetCategory(id);
+            if (category.CoverImage!=null)
+            {
+                await UploadImageCover(category);
+
+            }
+
+            var result=await _categoryRepository.UpdateCategory(category);
+            if (result)
+            {
+                TempData["IsUpdated"] = "Success";
+            }
+            else if(result == false)
+            {
+                TempData["IsUpdated"] = "Fail";
+            }
+            return View(category);
+
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            var category = _categoryRepository.GetCategory(id);
+            return View(category);
         }
     }
 }

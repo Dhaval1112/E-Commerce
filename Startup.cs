@@ -93,7 +93,7 @@ namespace E_Commerce
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllerRoute(
-                      name: "areas",
+                      name: "admin",
                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                     );
                 });

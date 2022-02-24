@@ -29,6 +29,8 @@ namespace E_Commerce.Areas.Admin.Models
 
         public IFormFile CoverImage { get; set; }
         public String  CoverImageUrl { get; set; }
+        public IFormFileCollection GalleryFiles { get; set; }
+        public List<GalleryModel> Gallery { get; set; }
 
 
     }

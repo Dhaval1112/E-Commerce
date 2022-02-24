@@ -16,6 +16,6 @@ namespace E_Commerce.Areas.Admin.Data
 
         public ICollection<Product> Products { get; set; }
 
-
+            
     }
 }

@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Data;
 using E_Commerce.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace E_Commerce.Repository
@@ -19,5 +20,8 @@ namespace E_Commerce.Repository
         Task<IdentityResult> ResetPasswordAsync(ResetPaswordModel model);
         Task<UserProfileModel> GetLogedInUser();
         Task<IdentityResult> UpdateProfile(UserProfileModel user);
+        
+        
+        Task<IList<string>> GetRoleByEmail(string email);
     }
 }

@@ -8,5 +8,7 @@ namespace E_Commerce.Areas.Admin.Repository
     {
         Task<int> CreateCategoryAsync(CategoryModel model);
         List<CategoryModel> AllCategories();
+        CategoryModel GetCategory(int id);
+        Task<bool> UpdateCategory(CategoryModel category);
     }
 }
