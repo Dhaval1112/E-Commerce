@@ -140,7 +140,7 @@ namespace E_Commerce.Areas.Admin.Repository
                 Stock = productModel.Stock
             };
 
-            if (product?.productGallery!= null)
+            if (product.productGallery!= null)
             {
 
                 product.productGallery = new List<ProductGallery>();

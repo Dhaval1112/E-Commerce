@@ -20,7 +20,7 @@ namespace E_Commerce.Areas.Admin.Controllers
 
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IProductRepository _productRepository;
-
+       
         public ProductController(IWebHostEnvironment webHostEnvironment, IProductRepository productRepository)
         {
             this._webHostEnvironment = webHostEnvironment;
@@ -94,7 +94,23 @@ namespace E_Commerce.Areas.Admin.Controllers
                 
             }
 
+/*            if (model.GalleryFiles != null)
+            {
+                string folder = "Product/Gallery/";
+                model.Gallery = new List<GalleryModel>();
 
+                foreach (var file in model.GalleryFiles)
+                {
+                    var newGallery = new GalleryModel()
+                    {
+                        Name = file.FileName,
+                        Url = await UploadImage(folder, file)
+                    };
+                    model.Gallery.Add(newGallery);
+
+                }
+
+            }*/
 
             TempData["IsUpdated"]= await _productRepository.EditProduct(model);
 
