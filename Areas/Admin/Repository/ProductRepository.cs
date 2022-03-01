@@ -3,6 +3,7 @@ using E_Commerce.Areas.Admin.Models;
 using E_Commerce.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +28,10 @@ namespace E_Commerce.Areas.Admin.Repository
                 CoverImageUrl = product.CoverImageUrl,
                 Price = product.Price,
                 Stock = product.Stock,
-                SalerName = product.SalerName
+                Discount = product.Discount,
+                SalerName = product.SalerName,
+          
+
                 
             }).ToList();
 
@@ -64,7 +68,7 @@ namespace E_Commerce.Areas.Admin.Repository
 
             try
             {
-                return  _context.Products.Where(p => p.Id == id).Select(product => new ProductModel()
+                var product = _context.Products.Where(p => p.Id == id).Select(product => new ProductModel()
                 {
                     ProductName = product.ProductName,
                     CategoryId = product.CategoryId,
@@ -75,9 +79,11 @@ namespace E_Commerce.Areas.Admin.Repository
                     Price = product.Price,
                     Stock = product.Stock,
                     Id = product.Id,
+                    CategoryName = product.Category.CategoryName,
                     Gallery = product.productGallery.Select(g => new GalleryModel()
                     {
                         Name = g.Name,
+                        Id = g.Id,
                         Url = g.Url
                     }
                     ).ToList(),
@@ -85,7 +91,7 @@ namespace E_Commerce.Areas.Admin.Repository
                 }
                 ).FirstOrDefault(); //.FindAsync(id);
 
-
+                return product;
             }
             catch (Exception)
             {
@@ -111,6 +117,20 @@ namespace E_Commerce.Areas.Admin.Repository
                 productData.Price = product.Price;
                 productData.CoverImageUrl = product.CoverImageUrl;
 
+                if (product.Gallery != null)
+                {
+
+                    productData.productGallery = new List<ProductGallery>();
+                    foreach (var gallary in product.Gallery)
+                    {
+                        productData.productGallery.Add(new ProductGallery()
+                        {
+                            Name = gallary.Name,
+                            Url = gallary.Url
+                        });
+                    }
+
+                }
 
                 _context.Products.Update(productData);
                 await _context.SaveChangesAsync();
@@ -140,7 +160,7 @@ namespace E_Commerce.Areas.Admin.Repository
                 Stock = productModel.Stock
             };
 
-            if (product.productGallery!= null)
+            if (productModel.Gallery!= null)
             {
 
                 product.productGallery = new List<ProductGallery>();
@@ -158,6 +178,21 @@ namespace E_Commerce.Areas.Admin.Repository
             return await _context.SaveChangesAsync();
 
 
+        }
+
+
+        public bool RemoveGalleryImages(int id,string sysPath)
+        {
+            var images = _context.productGalleries.Where(glr => glr.ProductId == id);
+            foreach (var image in images)
+            {
+                
+                var path = sysPath+image.Url;
+                System.IO.File.Delete(path);
+            }
+            _context.productGalleries.RemoveRange(_context.productGalleries.Where(glr => glr.ProductId == id));
+            int result=_context.SaveChanges();
+            return result>0;
         }
     }
 }

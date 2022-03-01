@@ -94,13 +94,20 @@ namespace E_Commerce.Areas.Admin.Controllers
                 
             }
 
-/*            if (model.GalleryFiles != null)
+            
+            if (model.GalleryFiles != null)
             {
+                var path = _productRepository.RemoveGalleryImages(model.Id, _webHostEnvironment.WebRootPath);
+
+
+                //var result = _productRepository.RemoveGalleryImages(model.Id,_webHostEnvironment.WebRootPath);
+                
                 string folder = "Product/Gallery/";
                 model.Gallery = new List<GalleryModel>();
 
                 foreach (var file in model.GalleryFiles)
                 {
+
                     var newGallery = new GalleryModel()
                     {
                         Name = file.FileName,
@@ -110,7 +117,7 @@ namespace E_Commerce.Areas.Admin.Controllers
 
                 }
 
-            }*/
+            }
 
             TempData["IsUpdated"]= await _productRepository.EditProduct(model);
 
@@ -125,6 +132,7 @@ namespace E_Commerce.Areas.Admin.Controllers
             var result = await _productRepository.DeleteProductAsync(Id);
             if (result)
             {
+                var successDeleteImages = _productRepository.RemoveGalleryImages(Id, _webHostEnvironment.WebRootPath);
                 TempData["IsDeleted"] = "Success";
             }
             else

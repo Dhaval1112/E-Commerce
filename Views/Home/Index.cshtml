@@ -1,57 +1,161 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<div class="container">
-    <h3 class="text-center">Offeres advertise</h3>
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
+﻿@model IEnumerable<E_Commerce.Areas.Admin.Models.ProductModel>;
 
+    @{
+        ViewData["Title"] = "Home Page";
+    }
 
+<script>
+    function redirectToProduct(id) {        
+        window.location.href = "/ProductRelated/GetProduct/" + id
+    }
+</script>
 
-<div class="bg-light py-2   ">
+    <style>
+        .stike{
+            color:gray;
+            font-size:12px;
+        }
+        .imgbottom{
+            margin-bottom:-10px;
+        }
 
+        .price {
+            font-size: 13px;
+            color: #c47a0a;
+        }
 
+        .cursorHover {
+            cursor:pointer;
+        }
+    </style>
     <div class="container">
-        <h4 class="text-center">Offer on products</h4>
-        <div class="row">
+        <h3 class="text-center">Offeres advertise</h3>
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
 
-            <div class="col-md-6">
-                <div class="card m-2">
+
+
+    <div class="bg-light py-2">
+
+
+        <div class="container px-2">
+            <h4 class="text-center my-3">Categories</h4>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="card m-2">
+
+                        <div class="card-body">
+                            <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
+                            
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card m-2">
+
+                        <div class="card-body">
+                            <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="container ">
+        <h4 class="text-center my-4">Top Products</h4>
+        <div class="row">
+            @foreach (var product in Model)
+            {
+
+
+                <partial name="_Product" model="@product" />
+
+            }
+
+
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                <div class="card m-1">
 
                     <div class="card-body">
-                        <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
-                        This is some text within a card body asda    aaaaaa.
+                        This is some text within a card body.
+                    </div>
+
+                </div>
+            </div>
+             <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                <div class="card m-1">
+
+                    <div class="card-body">
+                        This is some text within a card body.
+                    </div>
+
+                </div>
+            </div>
+             <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                <div class="card m-1">
+
+                    <div class="card-body">
+                        This is some text within a card body.
                     </div>
 
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="card m-2">
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                <div class="card m-1">
 
                     <div class="card-body">
-                        <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
+                        This is some text within a card body.
+                    </div>
 
+                </div>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                <div class="card m-1">
+
+                    <div class="card-body">
+                        This is some text within a card body.
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+                <div class="card m-1">
+
+                    <div class="card-body">
                         This is some text within a card body.
                     </div>
 
@@ -60,80 +164,9 @@
 
 
         </div>
-
-
     </div>
-</div>
 
 
-<div class="container">
-    <h4 class="text-center">Top Products</h4>
-    <div class="row">
-
-        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-            <div class="card m-1">
-
-                <div class="card-body">
-                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
-
-                    This is some text within a card body.
-                </div>
-
-            </div>
-        </div>
-        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-            <div class="card m-1">
-
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-
-            </div>
-        </div>
-        
-        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-            <div class="card m-1">
-
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-
-            </div>
-        </div>
-        
-        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-            <div class="card m-1">
-
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-
-            </div>
-        </div>
-        
-        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-            <div class="card m-1">
-
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-
-            </div>
-        </div>
-        
-        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-            <div class="card m-1">
-
-                <div class="card-body">
-                    This is some text within a card body.
-                </div>
-
-            </div>
-        </div>
-        
-
-    </div>
-</div>
 
 @*<style>
         .bg-info{
@@ -149,3 +182,235 @@
         <div class="col-md-4 col-lg-2 col-sm-8 bg-info col-xl-1 ">Hello</div>
     </div>
 *@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<br>
+<br>
+<div class="row justify-content-center">
+    <p></p>
+    <img class="img-fluid mb-4" src="~/images/1.jpg" alt="">
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-3 col-sm-6 col-6 mb-3">
+            <div class="card p-4 text-white font-weight-bold bg-success">
+                <div class="card-body">
+                    <p class="row card-text justify-content-center">Grocery</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6 col-6 mb-3">
+            <div class="card p-4 text-white font-weight-bold bg-success">
+                <div class="card-body">
+                    <p class="row card-text justify-content-center">Fruit</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-6 mb-3">
+            <div class="card p-4 text-white font-weight-bold bg-success">
+                <div class="card-body">
+                    <p class="row card-text justify-content-center">Food</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-6 mb-3">
+            <div class="card p-4 text-white font-weight-bold bg-success">
+                <div class="card-body">
+                    <p class="row card-text justify-content-center">Drinks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    
+    <!----><!--@*<div class="container">*@
+    <h2 class="m-3">Feature Product</h2>
+    <section>
+        <div class="row ml-lg-2 mr-lg-2">
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <h2>Top Rated Product</h2>
+    <section>
+        <div class="row ml-lg-2 mr-lg-2">
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name of the product with some details</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 mb-6">
+                <div class="card mt-2 mb-2 p-2 rounded">
+                    <div class="row">
+                        <img src="~/images/11.jpeg" class="card-img-top w-75 mx-auto" alt="...">
+                        <div class="card-body text-center m-0 p-0 mb-3">
+                            <p class="card-title m-0 p-0 mt-2 mb-1">Name</p>
+                            <p class="card-text m-0 p-0">Rs.Price</p>
+                            <a href="/product/getproduct/Id" class="btn btn-default border border-success m-2">Add To Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="row justify-content-center">
+    <img class="img-fluid mb-4" src="~/images/4.png" alt="">
+</div>-->

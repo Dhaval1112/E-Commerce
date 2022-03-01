@@ -1,0 +1,18 @@
+﻿
+@model E_Commerce.Areas.Admin.Models.ProductModel;
+
+<div class="col-md-3 col-lg-2 d-flex align-items-stretch col-sm-4 col-6 mb-3 cursorHover" onclick="redirectToProduct(@Model.Id)">
+    <div class="card w-100">
+
+        <div class="card-body text-center  d-flex align-items-center justify-content-center">
+            
+            <img src="@Model.CoverImageUrl" class="img-fluid rounded imgbottom" style="max-height:10rem;" alt="ProductImage" />
+        </div>
+        <div class="px-3">
+
+            <h6 class="text-success">@Model.ProductName</h6>
+            <p class="fw-bold price">Price  <strike class="stike">₹ @Model.Price</strike> ₹ @Convert.ToInt32((Model.Price - ((Model.Price * Model.Discount) / 100)))</p>
+        </div>
+        @*<a asp-controller="ProductRelated" asp-action="GetProduct" asp-route-id="@product.Id">Show details</a>*@
+    </div>
+</div>

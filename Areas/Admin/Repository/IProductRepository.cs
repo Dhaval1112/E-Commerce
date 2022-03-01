@@ -12,5 +12,7 @@ namespace E_Commerce.Areas.Admin.Repository
         ProductModel GetProductModel(int id);
 
         Task<bool> EditProduct(ProductModel product);
+
+        bool RemoveGalleryImages(int id, string sysPath);
     }
 }

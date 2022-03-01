@@ -33,5 +33,9 @@ namespace E_Commerce.Areas.Admin.Models
         public List<GalleryModel> Gallery { get; set; }
 
 
+
+        //this is for showing product only
+        public string CategoryName { get; set; }
+
     }
 }
