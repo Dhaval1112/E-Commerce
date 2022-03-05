@@ -8,15 +8,25 @@
     {
         if (TempData["IsUpdated"].ToString() == "Success")
         {
+            <script>
+                swal({
+                    title: "Category update",
+                    text: "Category updated successfully done..!",
+                    icon: "success",
+                    button: "Close",
+                });
+            </script>
 
-            <div class="alert alert-success d-flex align-items-center" role="alert">
+            @*<div class="alert alert-success d-flex align-items-center" role="alert">
                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
 
                 Category added Successfully done..!
                 <div class="me-auto">
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            </div>*@
+
+
         }
         else
         {

@@ -1,162 +1,146 @@
 ﻿@model IEnumerable<E_Commerce.Areas.Admin.Models.ProductModel>;
 
-    @{
-        ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+@*<style>
+
+
+
+    .categoryHeading {
+        background-color: rgba(0,0,0,.4);
+        border-radius: 3px;
+        margin: 0px;
+        height: 150px;
+        color: white;
+        display: flex;
+        align-items: center;
+        font-family: 'Berlin Sans FB';
+        justify-content: center;
+        text-shadow: 2px 2px 5px black;
+        opacity: 0.87;
     }
+
+    .bgImage {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url(https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg)
+    }
+</style>
+*@
+
 
 <script>
-    function redirectToProduct(id) {        
+    
+    function redirectToProduct(id) {
+
         window.location.href = "/ProductRelated/GetProduct/" + id
     }
+
 </script>
 
-    <style>
-        .stike{
-            color:gray;
-            font-size:12px;
-        }
-        .imgbottom{
-            margin-bottom:-10px;
-        }
 
-        .price {
-            font-size: 13px;
-            color: #c47a0a;
-        }
+<div class="container">
 
-        .cursorHover {
-            cursor:pointer;
-        }
-    </style>
-    <div class="container">
-        <h3 class="text-center">Offeres advertise</h3>
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
-                </div>
+ 
+
+
+    <h3 class="text-center">Offeres advertise</h3>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </div>
-
-
-
-    <div class="bg-light py-2">
-
-
-        <div class="container px-2">
-            <h4 class="text-center my-3">Categories</h4>
-            <div class="row">
-
-                <div class="col-md-6">
-                    <div class="card m-2">
-
-                        <div class="card-body">
-                            <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
-                            
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card m-2">
-
-                        <div class="card-body">
-                            <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
-
-                        </div>
-
-                    </div>
-                </div>
-
-
+            <div class="carousel-item">
+                <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
             </div>
-
-
+            <div class="carousel-item">
+                <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="d-block w-100" alt="...">
+            </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+</div>
 
 
-    <div class="container ">
-        <h4 class="text-center my-4">Top Products</h4>
+<div class="bg-light py-2">
+
+
+    <div class="container px-2">
+        <h4 class="text-center my-3">Categories</h4>
         <div class="row">
-            @foreach (var product in Model)
-            {
+
+            <div class="col-sm-4 col-md-3 mb-2 col-6">
+                <div class="card bgImage border shadow-sm">
+                    <h3 class="categoryHeading ">
+                        Chilli
+                    </h3>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3 mb-2 col-6">
+                <div class="card bgImage border shadow-sm">
+                    <h3 class="categoryHeading ">
+                        Rice
+                    </h3>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3 mb-2 col-6">
+                <div class="card bgImage border shadow-sm">
+                    <h3 class="categoryHeading ">
+                        Oil
+                    </h3>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3 mb-2 col-6">
+                <div class="card bgImage border shadow-sm" style="background-image: url(https://th.bing.com/th/id/R.e2adb99024e913192fe785ee7cbf9153?rik=efJS54rd5jFvog&riu=http%3a%2f%2fyesofcorsa.com%2fwp-content%2fuploads%2f2020%2f02%2fGaram-Masala-Best-Wallpaper.jpeg&ehk=9xjNKlT6HlI6uw5d7jLfp%2b8aSFofNlR%2bsfTdhSfflaI%3d&risl=&pid=ImgRaw&r=0) ">
+                    <h3 class="categoryHeading ">
+                        Masala
+                    </h3>
+                </div>
+            </div>
 
 
-                <partial name="_Product" model="@product" />
-
-            }
+        </div>
 
 
-            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                <div class="card m-1">
+    </div>
+</div>
+
+<div class="bg-light py-2">
+
+
+    <div class="container px-2">
+        <h4 class="text-center my-3">Adverticement of products</h4>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card m-2">
 
                     <div class="card-body">
-                        This is some text within a card body.
+                        <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
+
                     </div>
 
                 </div>
             </div>
-             <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                <div class="card m-1">
+
+            <div class="col-md-6">
+                <div class="card m-2">
 
                     <div class="card-body">
-                        This is some text within a card body.
-                    </div>
+                        <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
 
-                </div>
-            </div>
-             <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                <div class="card m-1">
-
-                    <div class="card-body">
-                        This is some text within a card body.
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                <div class="card m-1">
-
-                    <div class="card-body">
-                        This is some text within a card body.
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                <div class="card m-1">
-
-                    <div class="card-body">
-                        This is some text within a card body.
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-3 col-lg-2 col-sm-4 col-6">
-                <div class="card m-1">
-
-                    <div class="card-body">
-                        This is some text within a card body.
                     </div>
 
                 </div>
@@ -164,7 +148,86 @@
 
 
         </div>
+
+
     </div>
+</div>
+
+
+
+<div class="container ">
+    <h4 class="text-center my-4" >Top Products</h4>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+
+
+            <partial name="_Product" model="@product" />
+
+        }
+
+
+        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+            <div class="card m-1">
+
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+            <div class="card m-1">
+
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+            <div class="card m-1">
+
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+            <div class="card m-1">
+
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+            <div class="card m-1">
+
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 col-lg-2 col-sm-4 col-6">
+            <div class="card m-1">
+
+                <div class="card-body">
+                    This is some text within a card body.
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
 
 
 
@@ -243,8 +306,8 @@
         </div>
     </div>
     <!-- /.row -->
-    
-    <!----><!--@*<div class="container">*@
+<!---->
+<!--@*<div class="container">*@
     <h2 class="m-3">Feature Product</h2>
     <section>
         <div class="row ml-lg-2 mr-lg-2">

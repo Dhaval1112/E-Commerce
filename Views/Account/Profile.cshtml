@@ -39,16 +39,16 @@
     <hr />
 
 
-    <div class="container rounded bg-white shadow-sm">
-        <div class="row border rounded p-4 lgGray">
+    <div class="container rounded shadow-sm">
+        <div class="row border rounded p-4 ">
 
-            <div class="col-md-3 border-right mr-5 ">
+            <div class="col-md-3 border-right lgGray py-2 rounded mr-5 ">
 
                 <div class="d-flex flex-column align-items-center text-center">
                     <img class="rounded-circle" width="100" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                     <span class="font-weight-bold">@(Model?.FirstName+" "+Model?.LastName)</span>
-                    <span class="text-black-50">@Model?.EmailAddress</span>
-                    <span> </span>
+                    <span style="word-wrap: anywhere;" class="text-black-50">@Model?.EmailAddress</span>
+                    
                 </div>
                 <div class=" offset-1 col-md-12 mt-5">
                     <div class="row w-80">
@@ -60,7 +60,7 @@
                 <div class=" offset-1 col-md-12">
                     <div class="row w-80">
 
-                        <a class="btn btn-secondary btnGray btn-block col-10">Addresses</a>
+                        <a class="btn btn-secondary btnGray btn-block col-10">Manage addresses</a>
                     </div><br />
                 </div>
                 <div class=" offset-1 col-md-12">
@@ -76,7 +76,7 @@
 
 
             </div>
-            <div class="col-md-7 border-right mr-auto offset-1">
+            <div class="col-md-7 border-right mr-auto offset-md-1">
                 <div class="">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Profile Details</h4>

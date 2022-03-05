@@ -71,6 +71,34 @@ body {
 }
 
 
+.stike {
+    color: gray;
+    font-size: 12px;
+}
+
+.imgbottom {
+    margin-bottom: -10px;
+}
+
+.price {
+    font-size: 13px;
+    color: #c47a0a;
+}
+
+.cursorHover {
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
 .lt > li > a {
     text-decoration: none;
     color: green;
@@ -87,3 +115,24 @@ body {
     font-weight:normal;
 }
 
+
+.categoryHeading {
+    background-color: rgba(0,0,0,.4);
+    border-radius: 3px;
+    margin: 0px;
+    height: 150px;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-family: 'Berlin Sans FB';
+    justify-content: center;
+    text-shadow: 2px 2px 5px black;
+    opacity: 0.87;
+}
+
+.bgImage {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg)
+}

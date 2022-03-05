@@ -6,19 +6,39 @@
 
     @if (ViewBag?.IsSuccess == true)
     {
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+        @*<div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
 
-            Category added Successfully done..!
-            <div class="me-auto">
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
+                Category added Successfully done..!
+                <div class="me-auto">
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>*@
+        <script>
+            swal({
+                title: "Category",
+                text: "Category created successfully..!",
+                icon: "success",
+                button: "Close",
+            });
+        </script>
+        ViewBag.IsSuccess = null;
+    }
+    else if (ViewBag?.IsSuccess == false)
+    {
+        <script>
+            swal({
+                title: "Category",
+                text: "Can not be able to create category please try again letter..!",
+                icon: "info",
+                button: "Close",
+            });
+        </script>
         ViewBag.IsSuccess = false;
     }
+
     <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data"  asp-action="Create">
+        <form method="post" enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -39,19 +59,21 @@
                 <label asp-for="CoverImage"></label>
                 <input asp-for="CoverImage" class="form-control-file" id="files">
                 <span asp-validation-for="CoverImage" class="text-danger"></span>
-                <img id="image" height="80" width="80"/>
+                <img id="image" height="80" width="80" />
             </div>
-            
+
             <br />
-            
-            <div class="form-group">
+
+            @*<div class="form-group">
                 <label asp-for="CoverImage"></label>
                 <input asp-for="CoverImage" class="form-control-file" id="files">
                 <span asp-validation-for="CoverImage" class="text-danger"></span>
-                <img id="image" height="80" width="80"/>
+                <img id="image" height="80" width="80" />
             </div>
-            
+                
+
             <br />
+                *@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
