@@ -9,10 +9,40 @@
     ViewData["title"] = "get Book";
 }
 
+@{ 
+    Model.Quantity = 1;
+}
+<script>
+
+    function incrementQuantity() {
+        var quantity = document.getElementById('Quantity');
+        if (quantity.value > 4) {
+            swal("Quantity", "You can add maximum 5 Quantity at a time..!", "info");
+        } else {
+            quantity.value = parseInt(quantity.value) + 1;
+        }
+    }
+
+    function decrementQuantity() {
+        
+        var quantity = document.getElementById('Quantity');
+        if (quantity.value != 1) {
+
+            quantity.value = parseInt(quantity.value) - 1;
+        } else {
+
+            swal("Quantity", "You should have at least one product quantity..!", "info");
+        }
+        
+
+    }
+</script>
+
+
 <div class="container">
     <h3 class="display-6 my-4">Product details</h3>
     <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2 ">
 
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -54,7 +84,7 @@
 
             </div>
             <div class="row">
-               
+
 
                 <p class="fw-bold text-success fs-5">Price ₹ @Convert.ToInt32((Model.Price - ((Model.Price * Model.Discount) / 100)))  <span class="fs-6 mx-2"><strike class="priceStrike">₹ @Model.Price</strike></span>   <span class="text-primary fs-6">@Model.Discount% off</span></p>
             </div>
@@ -68,18 +98,43 @@
             </div>
 
 
+            <form asp-action="AddToCart" asp-controller="ProductRelated" method="post">
+                <input asp-for="Id" type ="hidden" class="form-control" placeholder="Name here" />
 
 
-            <div class="row d-flex flex-row "  >
-                <div class="col-md-12">
-                    <a href="@Model.ProductName" data-toggle="modal" class="btn btn-outline-primary me-2" data-target="#exampleModal">
-                        Add to cart
-                    </a>
-                    <a href="@Model.ProductName" data-toggle="modal" class="btn btn-outline-primary" data-target="#exampleModal">
-                        Buy now
-                    </a>
+                <div class="row d-flex flex-row ">
+                    <div class="mb-2 col-5 col-md-5 col-lg-4">
+                        <label class="form-group mb-2 text-black-50 fw-bold">Quantity</label>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary" onclick="decrementQuantity()" type="button" id="button-addon1">-</button>
+                            <input  asp-for="Quantity" class="form-control text-center" readonly aria-label="Example text with button addon" aria-describedby="button-addon1">
+                            <button class="btn btn-outline-secondary" type="button" onclick="incrementQuantity()" id="button-addon1">+</button>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+
+                        @if(Model.IsInCart)
+                        {    
+                            <a data-toggle="modal" class="btn btn-outline-primary me-2" asp-controller="ProductRelated" asp-action="AllCartProducts" data-target="#exampleModal">
+                                <i class="fa-solid fa-cart-shopping"></i> Go to cart
+                            </a>
+
+                        }
+                        else
+                        {
+                            <button type="submit" data-toggle="modal" class="btn btn-outline-primary me-2" data-target="#exampleModal">
+                                <i class="fa-solid fa-cart-plus me-2"></i> Add to cart
+                            </button>
+
+                        }
+                        <a href="@Model.ProductName" data-toggle="modal" class="btn btn-outline-primary" data-target="#exampleModal">
+                            <i class="fa-solid fa-bolt-lightning me-2"></i> Buy now
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </form>
+
             <hr />
             <ul class="list-group">
                 <li class="list-group-item">
@@ -90,7 +145,7 @@
                 <li class="list-group-item">
                     <span class="fw-bold">
                         @(Model.Stock>0?"Available":"Not available")
-                    </span> 
+                    </span>
                 </li>
                 <li class="list-group-item">
                     <span class="font-weight-bold">

@@ -1,0 +1,79 @@
+﻿@model E_Commerce.Models.AddressModel
+
+<div class="container border shadow-sm p-3">
+    <h4 class="text-success">Add address</h4>
+    <hr />
+    @if (TempData["IsSuccess"] != null)
+    {
+        @if (TempData["IsSuccess"].ToString() == "Success")
+        {
+            <h1>Success</h1>
+        }
+        else
+        {
+            <h1>Fail</h1>
+        }
+    }
+
+    <div class="col-md-9 offset-md-1">
+        <form asp-action="EditAddress" method="post">
+            <div class="row g-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <div class="form-floating mb-2">
+                    <input asp-for="Name" class="form-control" placeholder="Name here" />
+                    <label asp-for="Name" class="control-label is-invalid"></label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-2 col-6">
+                    <input asp-for="MobileNumber" class="form-control" placeholder="Mobile number" />
+                    <label asp-for="MobileNumber" class="control-label"></label>
+                    <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-2 col-6">
+                    <input asp-for="Pincode" class="form-control" placeholder="Pincode" />
+                    <label asp-for="Pincode" class="control-label"></label>
+                    <span asp-validation-for="Pincode" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <textarea asp-for="AddressArea" class="form-control" placeholder="Address area" rows="4" style="height:100px"></textarea>
+                    <label asp-for="AddressArea" class="control-label"></label>
+                    <span asp-validation-for="AddressArea" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-2 col-6">
+                    <input asp-for="City" class="form-control" placeholder="City" />
+                    <label asp-for="City" class="control-label"></label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-2 col-6">
+                    <input asp-for="State" class="form-control" placeholder="State" />
+                    <label asp-for="State" class="control-label"></label>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <input asp-for="Landmark" class="form-control" placeholder="Landmark" />
+                    <label asp-for="Landmark" class="control-label"></label>
+                    <span asp-validation-for="Landmark" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group mt-3">
+                    <input type="submit" value="Update changes" class="btn btn-primary btn-lg " />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@*
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+*@

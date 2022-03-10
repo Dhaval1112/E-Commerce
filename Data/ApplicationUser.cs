@@ -13,5 +13,10 @@ namespace E_Commerce.Data
         public string Gender { get; set; }
         public string MobileNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
+
+        public ICollection<Address> Addresses { get; set; }
+
+        public ICollection<Cart> Carts { get; set; }
+
     }
 }

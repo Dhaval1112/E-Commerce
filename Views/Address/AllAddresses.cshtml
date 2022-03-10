@@ -1,0 +1,75 @@
+﻿@model IEnumerable<AddressModel>
+
+    @if
+        (TempData["IsDeleted"] != null && TempData["IsDeleted"].ToString() == "Success") {
+        <script>
+            swal({
+                title: "Address!",
+                text: "Address deleted successfullu..!",
+                icon: "success",
+                button: "Aww yiss!",
+            });
+        </script>
+        }
+
+    <script>
+            function deleteAddress(id) {
+
+            swal({
+                title: "Are you sure?",
+                text: "Would you  like to delete this address..?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location = "DeleteAddress/" + id;
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+        }
+    </script>
+
+<div class="container" style="height:100vh">
+    <div class="card ">
+        <div class="card-header">
+            <h3 class="d-inline">
+                Your addresses
+            </h3>
+            <a class="btn btn-primary btn-sm float-end" asp-action="CreateAddress" asp-controller="address">Add new address</a>
+        </div>
+        <div class="card-body">
+
+            @foreach (var address in Model)
+            {
+
+                <div class="card col-12">
+                
+                    <div class="card-body px-4 row rounded-0">
+                        <div class="col-md-8 ">
+
+                            <h3 style="">@address.Name  <span style="color:steelblue; font-size:1rem; vertical-align:central">- @address.MobileNumber</span></h3>
+                            <p style="">
+                                @address.AddressArea
+                            </p>
+                            <p style="">
+                                @address.City, @address.Landmark, @address.Pincode
+                            </p>
+
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-md-end">
+
+                            <a class="btn btn-secondary btn-sm me-2" asp-action="EditAddress" asp-route-id="@address.Id">Edit</a>
+                            <button class="btn btn-secondary btn-sm" onclick="deleteAddress(@address.Id)" asp-action="DeleteAddress" asp-route-id="@address.Id">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+
+        </div>
+    </div>
+</div>

@@ -4,14 +4,16 @@ using E_Commerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace E_Commerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    partial class ECommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20220306115846_AddedAddressesIntoDbContext")]
+    partial class AddedAddressesIntoDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,12 +134,15 @@ namespace E_Commerce.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("applicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("applicationUserId");
 
                     b.ToTable("Addresses");
                 });
@@ -220,34 +225,6 @@ namespace E_Commerce.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("E_Commerce.Data.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("E_Commerce.Data.User", b =>
@@ -425,28 +402,11 @@ namespace E_Commerce.Migrations
 
             modelBuilder.Entity("E_Commerce.Data.Address", b =>
                 {
-                    b.HasOne("E_Commerce.Data.ApplicationUser", "user")
+                    b.HasOne("E_Commerce.Data.ApplicationUser", "applicationUser")
                         .WithMany("Addresses")
-                        .HasForeignKey("userId");
+                        .HasForeignKey("applicationUserId");
 
-                    b.Navigation("user");
-                });
-
-            modelBuilder.Entity("E_Commerce.Data.Cart", b =>
-                {
-                    b.HasOne("E_Commerce.Areas.Admin.Data.Product", "Product")
-                        .WithMany("Carts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("E_Commerce.Data.ApplicationUser", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
+                    b.Navigation("applicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -507,16 +467,12 @@ namespace E_Commerce.Migrations
 
             modelBuilder.Entity("E_Commerce.Areas.Admin.Data.Product", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("productGallery");
                 });
 
             modelBuilder.Entity("E_Commerce.Data.ApplicationUser", b =>
                 {
                     b.Navigation("Addresses");
-
-                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }

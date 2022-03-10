@@ -1,6 +1,8 @@
 ﻿using E_Commerce.Areas.Admin.Data;
 using E_Commerce.Areas.Admin.Models;
 using E_Commerce.Data;
+using E_Commerce.Models;
+using E_Commerce.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,10 +14,12 @@ namespace E_Commerce.Areas.Admin.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly ECommerceContext _context;
+        private readonly IUserService _userService;
 
-        public ProductRepository(ECommerceContext context)
+        public ProductRepository(ECommerceContext context,IUserService userService)
         {
             this._context = context;
+            this._userService = userService;
         }
 
 
@@ -30,6 +34,7 @@ namespace E_Commerce.Areas.Admin.Repository
                 Stock = product.Stock,
                 Discount = product.Discount,
                 SalerName = product.SalerName,
+                
           
 
                 
@@ -78,6 +83,7 @@ namespace E_Commerce.Areas.Admin.Repository
                     SalerName = product.SalerName,
                     Price = product.Price,
                     Stock = product.Stock,
+                    
                     Id = product.Id,
                     CategoryName = product.Category.CategoryName,
                     Gallery = product.productGallery.Select(g => new GalleryModel()
@@ -88,9 +94,14 @@ namespace E_Commerce.Areas.Admin.Repository
                     }
                     ).ToList(),
                     
+                    
                 }
                 ).FirstOrDefault(); //.FindAsync(id);
 
+                var userId = _userService.GetUserId();
+                // for checking that product is already into cart or not..!
+                var result=_context.Carts.Where(prod => prod.ProductId == id && prod.UserId == userId).FirstOrDefault();
+                product.IsInCart = result != null;
                 return product;
             }
             catch (Exception)
@@ -193,6 +204,37 @@ namespace E_Commerce.Areas.Admin.Repository
             _context.productGalleries.RemoveRange(_context.productGalleries.Where(glr => glr.ProductId == id));
             int result=_context.SaveChanges();
             return result>0;
+        }
+
+        public List<CartModel> AllCartProducts()
+        {
+            var userId=_userService.GetUserId();
+            
+
+            List<CartModel> carts = new List<CartModel>();
+            var listOfCategory = _context.Users.Where(usr => usr.Id == userId)
+                                        .Select(user => user.Carts.Select(
+                                            cart => new CartModel
+                                            {
+                                                Id = cart.Id,
+                                                ProductId = cart.ProductId,
+                                                ProductName =cart.Product.ProductName,
+                                                Quantity = cart.Quantity,
+                                                ProductDescription= cart.Product.Description,
+                                                Date= cart.Date,
+                                                Price= cart.Product.Price,
+                                                ProductCategoty= cart.Product.Category.CategoryName,
+                                                ProductSaler= cart.Product.SalerName,
+                                                ProductCoverImageUrl= cart.Product.CoverImageUrl,
+                                                ProductDiscount=cart.Product.Discount
+                                                
+                                            }
+                                            ).ToList()).FirstOrDefault();
+
+            return listOfCategory;
+
+
+
         }
     }
 }

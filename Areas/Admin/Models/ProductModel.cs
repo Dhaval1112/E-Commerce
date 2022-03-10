@@ -33,9 +33,16 @@ namespace E_Commerce.Areas.Admin.Models
         public List<GalleryModel> Gallery { get; set; }
 
 
+        //Quentity for adding product into quantity 
+        [Range(1, 5, ErrorMessage = "Quantity must between 1 to 5..!")]
+        public int Quantity { get; set; }
 
         //this is for showing product only
         public string CategoryName { get; set; }
+
+
+        // To check if product already into cart or not??
+        public bool IsInCart { get; set; }
 
     }
 }

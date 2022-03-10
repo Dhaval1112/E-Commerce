@@ -20,7 +20,9 @@ namespace E_Commerce.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGallery> productGalleries { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<Cart> Carts { get; set; }
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Areas.Admin.Models;
+using E_Commerce.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,5 +15,6 @@ namespace E_Commerce.Areas.Admin.Repository
         Task<bool> EditProduct(ProductModel product);
 
         bool RemoveGalleryImages(int id, string sysPath);
+        public List<CartModel> AllCartProducts();
     }
 }

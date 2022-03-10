@@ -22,5 +22,6 @@ namespace E_Commerce.Areas.Admin.Data
 
         public Category Category { get; set; }
         public ICollection<ProductGallery> productGallery { get; set;    }
+        public ICollection<E_Commerce.Data.Cart> Carts { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using E_Commerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace E_Commerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    partial class ECommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20220308042408_AddToCartModelAdded")]
+    partial class AddToCartModelAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -435,7 +437,7 @@ namespace E_Commerce.Migrations
             modelBuilder.Entity("E_Commerce.Data.Cart", b =>
                 {
                     b.HasOne("E_Commerce.Areas.Admin.Data.Product", "Product")
-                        .WithMany("Carts")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -507,8 +509,6 @@ namespace E_Commerce.Migrations
 
             modelBuilder.Entity("E_Commerce.Areas.Admin.Data.Product", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("productGallery");
                 });
 
