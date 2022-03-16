@@ -21,10 +21,11 @@
         } else {
             quantity.value = parseInt(quantity.value) + 1;
         }
+
     }
 
     function decrementQuantity() {
-        
+
         var quantity = document.getElementById('Quantity');
         if (quantity.value != 1) {
 
@@ -33,13 +34,57 @@
 
             swal("Quantity", "You should have at least one product quantity..!", "info");
         }
-        
+
+
 
     }
+    console.log("Hello");
+    function AddToCartEvent(productName) {
+        //console.log("Addtoevent");
+        //alert("message");
+        swal("Add To Cart", "Would you like to add "+productName+" into cart???", "info");
+        swal({
+            title: "Add To Cart",
+            text: "Would you like to add " + productName + " into cart ?",
+            icon: "info",
+            buttons: true
+        }).then((result) => {
+            if (result) {
+                document.getElementById("AddToCartForm").submit();
+            }
+        })
+
+    }
+
+/*
+    function AddToCartEvent(productId) {
+        alert('Order button clicked ' + productId);
+        var obj = document.getElementById('orderStatus');
+        obj.value = 'order';
+        document.getElementById('AddToCartForm').submit();
+    }
+*/
+
 </script>
 
+    @if(TempData["IsAddedIntoCart"]?.ToString() == "True") {
+        <script>
+            swal('Added into cart', 'Product added into cart..!', 'success');
+        </script>
+    }
 
 <div class="container">
+    @if (Model.IsInOrder) { 
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+            <span>This product's order currently in panding click <strong> Complete order </strong> to proceed.</span>
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     <h3 class="display-6 my-4">Product details</h3>
     <div class="row">
         <div class="col-md-6 mb-2 ">
@@ -49,10 +94,10 @@
 
                     @for (int i = 0; i < Model.Gallery.Count(); i++)
                     {
-                        <div class='text-center carousel-item @(i==0?"active":"")'  >
+                        <div class='text-center carousel-item @(i==0?"active":"")'>
                             <div style="width:100%; vertical-align:central; height:30rem;" class="text-center d-flex align-items-center justify-content-center">
 
-                                <img  class="img-fluid" src="@Model.Gallery[i].Url" />
+                                <img class="img-fluid" src="@Model.Gallery[i].Url" />
                             </div>
                         </div>
                     }
@@ -98,8 +143,8 @@
             </div>
 
 
-            <form asp-action="AddToCart" asp-controller="ProductRelated" method="post">
-                <input asp-for="Id" type ="hidden" class="form-control" placeholder="Name here" />
+            <form id="AddToCartForm" asp-action="AddToCart" asp-controller="ProductRelated">
+                <input asp-for="Id" type="hidden" class="form-control" placeholder="Name here" />
 
 
                 <div class="row d-flex flex-row ">
@@ -107,15 +152,19 @@
                         <label class="form-group mb-2 text-black-50 fw-bold">Quantity</label>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" onclick="decrementQuantity()" type="button" id="button-addon1">-</button>
-                            <input  asp-for="Quantity" class="form-control text-center" readonly aria-label="Example text with button addon" aria-describedby="button-addon1">
+                            <input asp-for="Quantity" class="form-control text-center" readonly aria-label="Example text with button addon" aria-describedby="button-addon1">
                             <button class="btn btn-outline-secondary" type="button" onclick="incrementQuantity()" id="button-addon1">+</button>
                         </div>
 
                     </div>
+
+
+
+                    <input type="hidden" name="productStatus" id="orderStatus" value="" />
                     <div class="col-md-12">
 
-                        @if(Model.IsInCart)
-                        {    
+                        @if (Model.IsInCart)
+                        {
                             <a data-toggle="modal" class="btn btn-outline-primary me-2" asp-controller="ProductRelated" asp-action="AllCartProducts" data-target="#exampleModal">
                                 <i class="fa-solid fa-cart-shopping"></i> Go to cart
                             </a>
@@ -123,14 +172,26 @@
                         }
                         else
                         {
-                            <button type="submit" data-toggle="modal" class="btn btn-outline-primary me-2" data-target="#exampleModal">
+                            <a id="AddToCartData" onClick="AddToCartEvent('@Model.ProductName');" class="btn btn-outline-primary me-2">
                                 <i class="fa-solid fa-cart-plus me-2"></i> Add to cart
-                            </button>
+                            </a>
 
                         }
-                        <a href="@Model.ProductName" data-toggle="modal" class="btn btn-outline-primary" data-target="#exampleModal">
-                            <i class="fa-solid fa-bolt-lightning me-2"></i> Buy now
-                        </a>
+
+                        @if (!Model.IsInOrder)
+                        {
+
+                            <a data-toggle="modal" onClick="AddToCartEvent(@Model.Id);" class="btn btn-outline-primary" data-target="#exampleModal">
+                                <i class="fa-solid fa-bolt-lightning me-2"></i> Buy Now!
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a data-toggle="modal" class="btn btn-outline-primary" data-target="#exampleModal">
+                                <i class="fa-solid fa-bolt-lightning me-2"></i> Complete order
+                            </a>
+                        }
                     </div>
                 </div>
             </form>

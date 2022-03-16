@@ -16,6 +16,7 @@ namespace E_Commerce.Data
         public ApplicationUser User { get; set; }
         public string UserId { get; set; }
         public int Quantity { get; set; }
+        public int CartStatus { get; set; }
         public DateTime Date{ get; set; }
     }
 }

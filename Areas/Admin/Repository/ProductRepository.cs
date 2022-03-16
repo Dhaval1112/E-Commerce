@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Areas.Admin.Data;
 using E_Commerce.Areas.Admin.Models;
 using E_Commerce.Data;
+using E_Commerce.Enums;
 using E_Commerce.Models;
 using E_Commerce.Services;
 using System;
@@ -67,6 +68,18 @@ namespace E_Commerce.Areas.Admin.Repository
             return await _context.Products.FindAsync(id);
         }
 
+
+
+        // TODO: this is for future enhancement maping and taking status of order
+        private void setStatus(Cart crt,ProductModel prdModel)
+        {
+            if (!prdModel.IsInCart)
+                prdModel.IsInCart = crt.CartStatus == (int)AddTo.Cart;
+
+            
+            if(!prdModel.IsInOrder)
+                prdModel.IsInOrder= crt.CartStatus == (int)AddTo.Order;
+        }
         // for getting product model
         public ProductModel GetProductModel(int id)
         {
@@ -100,11 +113,26 @@ namespace E_Commerce.Areas.Admin.Repository
 
                 var userId = _userService.GetUserId();
                 // for checking that product is already into cart or not..!
-                var result=_context.Carts.Where(prod => prod.ProductId == id && prod.UserId == userId).FirstOrDefault();
-                product.IsInCart = result != null;
+                //var isInCartResult = _context.Carts.Where(prod => prod.ProductId == id && prod.UserId == userId).ToList() ;
+
+                var isInCartResult = _context.Carts.Where(prod => prod.ProductId == id && prod.UserId == userId && prod.CartStatus == (int)AddTo.Cart).FirstOrDefault();
+
+                var isInOrderResult=_context.Carts.Where(prod => prod.ProductId == id && prod.UserId == userId && prod.CartStatus == (int)AddTo.Order).FirstOrDefault();
+
+                if (isInCartResult != null)
+                {
+                    product.IsInCart = isInCartResult.CartStatus == (int) AddTo.Cart;
+
+                }
+                if(isInOrderResult !=null)
+                {
+
+                    product.IsInOrder = isInOrderResult.CartStatus == (int)AddTo.Order;
+                }
+
                 return product;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;             
             }
@@ -206,35 +234,80 @@ namespace E_Commerce.Areas.Admin.Repository
             return result>0;
         }
 
-        public List<CartModel> AllCartProducts()
+        private static int CalculateDiscount(float price,float discount,int quantity)
+        {
+            return (int) Math.Ceiling(((price* discount)/100)*quantity);
+        }
+
+
+        public List<CartModel> AllCartProducts(string productsStatus)
         {
             var userId=_userService.GetUserId();
-            
 
-            List<CartModel> carts = new List<CartModel>();
-            var listOfCategory = _context.Users.Where(usr => usr.Id == userId)
-                                        .Select(user => user.Carts.Select(
+
+            /*
+            var listOfCartDEMO = (from usr in _context.Users
+                                  join crt in _context.Carts on usr.Id equals crt.UserId
+                                  join prd in _context.Products on crt.ProductId equals prd.Id
+                                  where (usr.Id == userId && crt.CartStatus==(int) AddTo.Order) 
+                                  select  new CartModel
+                                  {
+                                      Id = crt.Id,
+                                      ProductId = crt.ProductId,
+                                      ProductName = crt.Product.ProductName,
+                                      Quantity = crt.Quantity,
+                                      ProductDescription = crt.Product.Description,
+                                      Date = crt.Date,
+                                      Price = crt.Product.Price,
+                                      ProductCategoty = crt.Product.Category.CategoryName,
+                                      ProductSaler = crt.Product.SalerName,
+                                      ProductCoverImageUrl = crt.Product.CoverImageUrl,
+                                      ProductDiscount = crt.Product.Discount,
+                                      TotalPrice = Convert.ToInt32(crt.Product.Price * crt.Quantity),
+                                      DiscountedPrice = (crt.Product.Price * crt.Quantity) - CalculateDiscount(crt.Product.Price, crt.Product.Discount, crt.Quantity),
+                                      TotalDiscount = CalculateDiscount(crt.Product.Price, crt.Product.Discount, crt.Quantity),
+                                      //Convert.ToInt32((cart.Product.Price * cart.Quantity)-((cart.Product.Price * cart.Quantity) * cart.Product.Discount == 0 ? 1 : cart.Product.Discount) / 100)
+                                  }).ToList();
+
+
+            */
+
+
+
+
+
+                              
+            var listOfCarts= _context.Users.Where(usr => usr.Id == userId)
+                                        .Select(user => user.Carts.Where(crt=> crt.CartStatus== (productsStatus == "order"? (int) AddTo.Order : (int)AddTo.Cart ) ).Select(
+                                            
                                             cart => new CartModel
                                             {
                                                 Id = cart.Id,
                                                 ProductId = cart.ProductId,
-                                                ProductName =cart.Product.ProductName,
+                                                ProductName = cart.Product.ProductName,
                                                 Quantity = cart.Quantity,
-                                                ProductDescription= cart.Product.Description,
-                                                Date= cart.Date,
-                                                Price= cart.Product.Price,
-                                                ProductCategoty= cart.Product.Category.CategoryName,
-                                                ProductSaler= cart.Product.SalerName,
-                                                ProductCoverImageUrl= cart.Product.CoverImageUrl,
-                                                ProductDiscount=cart.Product.Discount
-                                                
+                                                ProductDescription = cart.Product.Description,
+                                                Date = cart.Date,
+                                                Price = cart.Product.Price,
+                                                ProductCategoty = cart.Product.Category.CategoryName,
+                                                ProductSaler = cart.Product.SalerName,
+                                                ProductCoverImageUrl = cart.Product.CoverImageUrl,
+                                                ProductDiscount = cart.Product.Discount,
+                                                TotalPrice = Convert.ToInt32(cart.Product.Price * cart.Quantity),
+                                                DiscountedPrice = (cart.Product.Price * cart.Quantity) - CalculateDiscount(cart.Product.Price, cart.Product.Discount, cart.Quantity),
+                                                TotalDiscount= CalculateDiscount(cart.Product.Price,cart.Product.Discount,cart.Quantity),
+                                                //Convert.ToInt32((cart.Product.Price * cart.Quantity)-((cart.Product.Price * cart.Quantity) * cart.Product.Discount == 0 ? 1 : cart.Product.Discount) / 100)
                                             }
                                             ).ToList()).FirstOrDefault();
-
-            return listOfCategory;
+                              
+            return listOfCarts;
 
 
 
         }
+
+
+
+        
     }
 }

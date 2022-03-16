@@ -20,9 +20,10 @@ namespace E_Commerce.Models
         public int ProductDiscount { get; set; }
         public DateTime Date { get; set; }
 
-/*        public float DiscountedPrice { get; set; }
+        public float DiscountedPrice { get; set; }
         public float TotalPrice { get; set; }
-        public float totalDiscount{ get; set; }*/
+        public float TotalDiscount { get; set; }
+        public int FromWhichAction { get; set; }
 
 
     }

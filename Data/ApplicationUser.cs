@@ -18,5 +18,8 @@ namespace E_Commerce.Data
 
         public ICollection<Cart> Carts { get; set; }
 
+        public ICollection<Order> Orders { get; set; }
+        
+
     }
 }

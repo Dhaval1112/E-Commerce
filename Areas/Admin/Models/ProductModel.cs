@@ -43,6 +43,7 @@ namespace E_Commerce.Areas.Admin.Models
 
         // To check if product already into cart or not??
         public bool IsInCart { get; set; }
+        public bool IsInOrder { get; set; }
 
     }
 }

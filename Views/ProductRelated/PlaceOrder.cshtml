@@ -1,0 +1,280 @@
+﻿@model PlaceOrderModel
+
+@{
+    var GrandTotal = 0;
+    var GrandDiscount = 0;
+}
+<style>
+    .cartListImageDiv {
+        max-height: 11rem;
+        max-width: 6rem;
+    }
+
+    .productName, .productSaler {
+        line-height: 18px;
+    }
+
+    .productSaler {
+        font-size: 1rem;
+        color: dimgray;
+    }
+
+    .productQuantity {
+        line-height: 18px;
+    }
+
+    .wdtotal {
+        color: darkgray;
+    }
+
+    .cartDiscount {
+        font-size: 15px;
+        opacity: 0.8;
+    }
+
+    .placeOrderButton {
+        background-color: darkorange;
+        border-color: darkorange;
+        border-radius: unset;
+        margin-bottom: 1rem;
+    }
+
+    .sidebarTextSize {
+        font-size: 10px;
+    }
+
+    .card-header {
+        background-color: white;
+    }
+</style>
+
+@if (TempData["IsRemoved"] != null)
+{
+    if (TempData["IsRemoved"].ToString() == "True")
+    {
+        <script>
+            swal("Removed.!", "Product removed from cart successfully", "success");
+        </script>
+    }
+    else
+    {
+        <script>
+            swal("Error.!", "Product does not removed from cart..!", "info");
+        </script>
+    }
+}
+
+
+
+
+
+
+
+<form method="post">
+
+    <!--Product related details-->
+    <div class="container  ">
+
+
+
+        <div class="row flex-row p-2">
+            <div class="col-lg-8 ">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Order items(@Model.Products.Count)</h4>
+                    </div>
+                    <div class="card-body">
+
+                        @foreach (var item in Model.Products)
+                        {
+
+                            <div class="mb-2 row border m-2 py-2 rounded">
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-2">
+
+                                    <div class="cartListImageDiv border p-2">
+                                        <img class="img-fluid cartImage" src="@item.ProductCoverImageUrl" alt="Alternate Text" />
+                                    </div>
+                                </div>
+
+                                @*7 in*@
+                                <div class="col-7">
+                                    <p class="fs-5 productName">
+                                        @item.ProductName
+                                    </p>
+                                    @*<p class="productSaler">Saler name: @item.ProductSaler</p>*@
+
+                                    @{
+
+                                        GrandTotal += (int)item.TotalPrice;
+                                        GrandDiscount += (int)item.TotalDiscount;
+
+                                        <div>
+
+                                            <span class="fw-bold  me-1">₹@item.DiscountedPrice</span> <span class="wdtotal"><strike> ₹@item.TotalPrice</strike></span> <span class="cartDiscount fw-bold text-success">@item.ProductDiscount% off</span>
+                                        </div>
+                                    }
+
+                                    <div class="mt-2">
+
+                                        <span class="fw-bold productQuantity me-2">Quantity: @item.Quantity</span>
+                                        <a class="fs-6 text-uppercase text-decoration-none" asp-controller="ProductRelated" asp-action="RemoveFromCart" asp-route-cartId="@item.Id" asp-route-status="order">Remove</a>
+                                    </div>
+                                </div>
+                                @*3 in*@
+                                <div class="col-3">
+                                    <p>
+                                        TOTAL: @(item.DiscountedPrice * item.Quantity)
+                                    <p />
+
+                                </div>
+
+                            </div>
+
+
+                        }
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- address details -->
+
+
+                <div class="col-md-12 mt-3 ">
+                    <div class="card shadow-sm">
+
+                        <div class="card-header">
+                            <h4>
+                                Address details
+                            </h4> 
+                        </div>
+                        <div class="card-body">
+                            <span asp-validation-for="AddressId" class="text-danger alert"></span>
+
+                            @foreach (var item in Model.Addresses)
+                            {
+                                <label class="row border m-2 rounded py-2" style="cursor:pointer;" for="address_@item.Id">
+
+                                    <div class="col-2 col-lg-1 d-flex align-items-center">
+                                        <input type="radio" class="form-check-input" id="address_@item.Id" asp-for="AddressId" value="@item.Id" />
+                                    </div>
+                                    <div class="col-10 col-lg-11">
+
+                                        <div class="fw-bold">
+
+                                            @item.Name
+                                        </div>
+
+                                        <div>Address : @item.AddressArea</div>
+                                        <div class="text-secondary">
+                                            @item.City - @item.State
+                                        </div>
+                                    </div>
+
+                                </label>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <!--Address detail ends here-->
+                <!--Payment details Start-->
+
+                <div class="col-md-12 mt-3 ">
+                    <div class="card shadow-sm">
+
+                        <div class="card-header">
+                            <h4>
+                                Payment details
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <span asp-validation-for="PaymentMethodId" class="text-danger alert"></span>
+
+                            <div class="row border m-2 rounded py-2">
+
+                                <div class="col-2 col-lg-1 d-flex align-items-center">
+                                    <input type="radio" class="form-check-input" id="paymentCOD" asp-for="PaymentMethodId" value="1" />
+                                </div>
+                                <div class="col-10 col-lg-11">
+
+                                    <label class="fw-bold" for="paymentCOD">
+                                        Cash On Delevery
+                                    </label>
+
+
+                                </div>
+
+                            </div>
+                            <div class="row border m-2 rounded py-2">
+                                <div class="col-2 col-lg-1 d-flex align-items-center">
+                                    <input type="radio" class="form-check-input" id="paymentCOD" asp-for="PaymentMethodId" value="2" />
+                                </div>
+                                <div class="col-10 col-lg-11">
+
+                                    <label class="fw-bold">
+                                        CREDIT / DEBIT CARD
+                                    </label>
+
+
+                                </div>
+
+                             </div>
+                            </div>
+                        </div>
+                </div>
+
+                <!--Payment details End-->
+
+            </div>
+
+
+
+
+            @*        <div class="col-md-4 ">*@
+            <div class="col-lg-4 sticky-lg-top">
+                <div class="border rounded shadow-sm">
+                    <h4 class="p-2 text-uppercase text-secondary mt-2">Price Details</h4>
+                    <hr />
+                    <div class="px-5 mb-3 ">
+                        <span class="me-auto ">
+                            Price Details (@Model.Products.Count)
+                        </span>
+                        <span class="float-end  ">
+                            ₹ @GrandTotal
+
+                        </span>
+
+                    </div>
+                    <div class="px-5 mb-3">
+                        <span class="me-auto">
+                            Total savings
+                        </span>
+                        <span class="float-end text-success">
+                            - ₹ @GrandDiscount
+
+                        </span>
+
+                    </div>
+                    <div>
+
+                        <hr style="border: 1px dashed #C0C0C0" class="mx-3" />
+                        <div class="px-5">
+
+                            <span class="fw-bold">Total Amount</span>
+                            <span class="fw-bold float-end">₹@(GrandTotal-GrandDiscount)</span>
+                        </div>
+                        <hr style="border: 1px dashed #C0C0C0" class="mx-3" />
+
+                        <div class="row px-4">
+                            <button type="submit" class="btn btn-danger text-uppercase fw-bold d-block placeOrderButton" style="letter-spacing:1px;">Checkout now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>

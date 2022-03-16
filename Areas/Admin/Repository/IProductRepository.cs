@@ -15,6 +15,6 @@ namespace E_Commerce.Areas.Admin.Repository
         Task<bool> EditProduct(ProductModel product);
 
         bool RemoveGalleryImages(int id, string sysPath);
-        public List<CartModel> AllCartProducts();
+        public List<CartModel> AllCartProducts(string productsStatus);
     }
 }

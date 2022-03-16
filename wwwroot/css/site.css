@@ -136,3 +136,43 @@ body {
     background-position: center;
     background-image: url(https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg)
 }
+
+
+.cartListImageDiv {
+    max-height: 11rem;
+    max-width: 6rem;
+}
+
+.productName, .productSaler {
+    line-height: 18px;
+}
+
+.productSaler {
+    font-size: 1rem;
+    color: dimgray;
+}
+
+.productQuantity {
+    line-height: 18px;
+}
+
+.wdtotal {
+    color: darkgray;
+}
+
+.cartDiscount {
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+.placeOrderButton {
+    background-color: darkorange;
+    border-color: darkorange;
+    border-radius: unset;
+    margin-bottom: 1rem;
+}
+
+.sidebarTextSize {
+    font-size: 10px;
+}
+
