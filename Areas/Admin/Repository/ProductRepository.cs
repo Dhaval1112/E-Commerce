@@ -240,11 +240,11 @@ namespace E_Commerce.Areas.Admin.Repository
         }
 
 
-        public List<CartModel> AllCartProducts(string productsStatus)
+        public List<CartModel> AllCartProducts(string productsStatus,int cartId=0)
         {
             var userId=_userService.GetUserId();
 
-
+            #region Writing_where_type_query
             /*
             var listOfCartDEMO = (from usr in _context.Users
                                   join crt in _context.Carts on usr.Id equals crt.UserId
@@ -272,35 +272,67 @@ namespace E_Commerce.Areas.Admin.Repository
 
             */
 
+            #endregion 
 
 
+            if (cartId==0)
+            { 
 
 
                               
-            var listOfCarts= _context.Users.Where(usr => usr.Id == userId)
-                                        .Select(user => user.Carts.Where(crt=> crt.CartStatus== (productsStatus == "order"? (int) AddTo.Order : (int)AddTo.Cart ) ).Select(
+                var listOfCarts= _context.Users.Where(usr => usr.Id == userId)
+                                            .Select(user => user.Carts.Where(crt=> crt.CartStatus== (productsStatus == "order"? (int) AddTo.Order : (int)AddTo.Cart ) ).Select(
                                             
-                                            cart => new CartModel
-                                            {
-                                                Id = cart.Id,
-                                                ProductId = cart.ProductId,
-                                                ProductName = cart.Product.ProductName,
-                                                Quantity = cart.Quantity,
-                                                ProductDescription = cart.Product.Description,
-                                                Date = cart.Date,
-                                                Price = cart.Product.Price,
-                                                ProductCategoty = cart.Product.Category.CategoryName,
-                                                ProductSaler = cart.Product.SalerName,
-                                                ProductCoverImageUrl = cart.Product.CoverImageUrl,
-                                                ProductDiscount = cart.Product.Discount,
-                                                TotalPrice = Convert.ToInt32(cart.Product.Price * cart.Quantity),
-                                                DiscountedPrice = (cart.Product.Price * cart.Quantity) - CalculateDiscount(cart.Product.Price, cart.Product.Discount, cart.Quantity),
-                                                TotalDiscount= CalculateDiscount(cart.Product.Price,cart.Product.Discount,cart.Quantity),
-                                                //Convert.ToInt32((cart.Product.Price * cart.Quantity)-((cart.Product.Price * cart.Quantity) * cart.Product.Discount == 0 ? 1 : cart.Product.Discount) / 100)
-                                            }
-                                            ).ToList()).FirstOrDefault();
-                              
-            return listOfCarts;
+                                                cart => new CartModel
+                                                {
+                                                    Id = cart.Id,
+                                                    ProductId = cart.ProductId,
+                                                    ProductName = cart.Product.ProductName,
+                                                    Quantity = cart.Quantity,
+                                                    ProductDescription = cart.Product.Description,
+                                                    Date = cart.Date,
+                                                    Price = cart.Product.Price,
+                                                    ProductCategoty = cart.Product.Category.CategoryName,
+                                                    ProductSaler = cart.Product.SalerName,
+                                                    ProductCoverImageUrl = cart.Product.CoverImageUrl,
+                                                    ProductStock = cart.Product.Stock,
+                                                    ProductDiscount = cart.Product.Discount,
+                                                    TotalPrice = Convert.ToInt32(cart.Product.Price * cart.Quantity),
+                                                    DiscountedPrice = (cart.Product.Price * cart.Quantity) - CalculateDiscount(cart.Product.Price, cart.Product.Discount, cart.Quantity),
+                                                    TotalDiscount= CalculateDiscount(cart.Product.Price,cart.Product.Discount,cart.Quantity),
+                                                    //Convert.ToInt32((cart.Product.Price * cart.Quantity)-((cart.Product.Price * cart.Quantity) * cart.Product.Discount == 0 ? 1 : cart.Product.Discount) / 100)
+                                                }
+                                                ).ToList()).FirstOrDefault();
+
+                 return listOfCarts;
+            }
+            else
+            {
+                var listOfCarts = _context.Users.Where(usr => usr.Id == userId)
+                                            .Select(user => user.Carts.Where(crt => ( crt.CartStatus == (productsStatus == "order" ? (int)AddTo.Order : (int)AddTo.Cart) ) && crt.Id==cartId).Select(
+
+                                                cart => new CartModel
+                                                {
+                                                    Id = cart.Id,
+                                                    ProductId = cart.ProductId,
+                                                    ProductName = cart.Product.ProductName,
+                                                    Quantity = cart.Quantity,
+                                                    ProductDescription = cart.Product.Description,
+                                                    Date = cart.Date,
+                                                    Price = cart.Product.Price,
+                                                    ProductCategoty = cart.Product.Category.CategoryName,
+                                                    ProductSaler = cart.Product.SalerName,
+                                                    ProductCoverImageUrl = cart.Product.CoverImageUrl,
+                                                    ProductDiscount = cart.Product.Discount,
+                                                    TotalPrice = Convert.ToInt32(cart.Product.Price * cart.Quantity),
+                                                    DiscountedPrice = (cart.Product.Price * cart.Quantity) - CalculateDiscount(cart.Product.Price, cart.Product.Discount, cart.Quantity),
+                                                    TotalDiscount = CalculateDiscount(cart.Product.Price, cart.Product.Discount, cart.Quantity),
+                                                    //Convert.ToInt32((cart.Product.Price * cart.Quantity)-((cart.Product.Price * cart.Quantity) * cart.Product.Discount == 0 ? 1 : cart.Product.Discount) / 100)
+                                                }
+                                                ).ToList()).FirstOrDefault();
+
+                return listOfCarts;
+            }
 
 
 

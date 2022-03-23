@@ -51,7 +51,7 @@ namespace E_Commerce.Controllers
 
         public IActionResult AllCartProducts()
         {
-            var carts=_productRepository.AllCartProducts("cart");
+            var carts=_productRepository.AllCartProducts("cart",0);
             return View(carts);
         }
 
@@ -66,21 +66,20 @@ namespace E_Commerce.Controllers
             
         }
 
-
         //this view only for select options like address,payment method, etc
-        public IActionResult PlaceOrder(int? id)
+        public IActionResult PlaceOrder(int? orderId)
         {
-            if(id==null)
+            if(orderId == null)
             {
                 // when we do want to checkout from cart page
-                var order =_cartOrderRepository.GetPlaceOrderModel();
+                var order =_cartOrderRepository.GetPlaceOrderModel(0);
                
                 return View(order);
 
             }
             else
             {
-                var order = _cartOrderRepository.GetPlaceOrderModel();
+                var order = _cartOrderRepository.GetPlaceOrderModel((int)orderId);
                 return View(order);
             }          
         }
@@ -90,8 +89,12 @@ namespace E_Commerce.Controllers
         [HttpPost]
         public IActionResult PlaceOrder(PlaceOrderModel placeOrderModel)
         {
-            var order = _cartOrderRepository.GetPlaceOrderModel();
-            var newOrder=_cartOrderRepository.CompleteOrder(placeOrderModel);
+            var order = _cartOrderRepository.GetPlaceOrderModel(placeOrderModel.CartProductId);
+            if (_cartOrderRepository.CompleteOrder(placeOrderModel))
+            {
+                TempData["IsOrder"] = "True";
+
+            }
             return View(order);
         }
 
@@ -113,7 +116,7 @@ namespace E_Commerce.Controllers
 
         public IActionResult PandingOrders()
         {
-            var pandingOrders= _productRepository.AllCartProducts("order");
+            var pandingOrders= _productRepository.AllCartProducts("order",0);
             return View(pandingOrders);
         }
     }

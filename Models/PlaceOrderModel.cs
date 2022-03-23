@@ -16,6 +16,7 @@ namespace E_Commerce.Models
         public int AddressId { get; set; }
         [Required(ErrorMessage ="Select appropriate payment option..!")]
         public int PaymentMethodId { get; set; }
+        public int CartProductId { get; set; }
 
     }
 }

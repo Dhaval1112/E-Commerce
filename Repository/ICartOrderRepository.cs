@@ -10,8 +10,8 @@ namespace E_Commerce.Repository
     {
         Task<bool> AddToCart(ProductModel product, string productStatus);
         Task<bool> RemoveCartProduct(int productId);
-        PlaceOrderModel GetPlaceOrderModel();
-        PlaceOrderModel CompleteOrder(PlaceOrderModel order);
+        PlaceOrderModel GetPlaceOrderModel(int id);
+        bool CompleteOrder(PlaceOrderModel order);
         List<Order> GetAllOrders();
     }
 }

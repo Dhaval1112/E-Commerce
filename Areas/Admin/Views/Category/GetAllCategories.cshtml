@@ -33,7 +33,6 @@
 
 
 
-<h3 class="py-3">All products</h3>
 
 @if (TempData["IsUpdated"] != null)
 {
@@ -48,7 +47,7 @@
     </div>
 
 }
-@if (Model.Count() > 0)
+@*@if (Model.Count() > 0)
 {
 
     <table class="table  table-hover table-bordered">
@@ -95,4 +94,182 @@ else
 }
 
 
+
+*@
+
+
+
+
+
+<script>
+
+    function deleteFunction(str, product) {
+        let text = "Wourl you like to delete " + product;
+        if (confirm(text) == true) {
+            text = "You pressed OK!";
+            window.location.href = str;
+        } else {
+            text = "You canceled!";
+        }
+
+    }
+
+    function editFunction(str, product) {
+        let text = "Wourl you like to Edit " + product;
+        if (confirm(text) == true) {
+            text = "You pressed OK!";
+            window.location.href = str;
+        } else {
+            text = "You canceled!";
+        }
+
+    }
+
+    function deletedata() {
+        alert("Get called")
+    }
+</script>
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+<link href="/css/AdminPage.css" rel="stylesheet" />
+
+
+
+
+@if (TempData["IsDeleted"] != null)
+{
+    if (TempData["IsDeleted"].ToString() == "Success")
+    {
+
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+            Product deleted Successfully done..!
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#check-circle-fill" /></svg>
+            Something went wrong while uploading category so try again..!
+            <div class="me-auto">
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    //ViewBag.IsSuccess = false;
+}
+
+
+
+<h3>Categories list</h3>
+<hr class="text-success rounded" style="width:100px; height:10px;" />
+<br />
+
+<div class="table-responsive">
+
+
+    <table id="EmployeeTable" class="table  table-bordered table-hover rounded " style="width:100%">
+        <thead>
+            <tr>
+
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+                <tr>
+
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Saler</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </tfoot>*@
+
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+@section scripts{
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.js"></script>
+    @*<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>*@
+    <script>
+@*        <td>@product.ProductName</td>
+                    <td>@product.Stock</td>
+                    <td>@product.Price</td>
+                    <td>@product.SalerName</td>*@
+
+    function getDetails(data, type, dataToSet) {
+        return `<button class="btn btn-info btn-sm" onclick="editFunction('EditProduct/${data.id}', '${data.categoryName}')">Edit</button> |
+                <button class="btn btn-danger btn-sm" onclick="deleteFunction('DeleteProduct/${data.id}', '${data.categoryName}')">Delete</button>
+                `
+
+        //return data.id +' '+data.productName
+        }
+        $(document).ready(() => {
+            $('#EmployeeTable').DataTable(
+                {
+                    "ajax": {
+                        "url": "/admin/Category/GetAllCategoriesJSON",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        {
+                            "data": "id",
+                            "render": (url) =>
+                                '<a > ' + url + '</a>'
+                        },
+                        {
+                            "data": "coverImageUrl", "render": (imgUrl) =>
+                                                        `<div class="text-center"><img src="${imgUrl}" height="50" width="50" /></div>`
+
+                        },
+                        { "data": "categoryName" },
+                        { "data": "cetegoryDescription" },
+                        {
+                            "data": getDetails,
+
+                            @*"render": (data, type, dataToSet) =>
+                                `<button class="btn btn-info btn-sm" onclick="editFunction('admin/Product/EditProduct/${data.productId}', '${data.productName}')">Edit</button> |`*@
+
+                        },
+                    ]
+                }
+            );
+        })
+
+    </script>
+
+}
+
+
+
+
+@*vista create*@
 

@@ -65,12 +65,12 @@ namespace E_Commerce.Repository
 
                 if (productStatus == "order")
                 {
-                    cart.CartStatus = 2;
+                    cart.CartStatus = (int)AddTo.Order;
                    
                 }
                 else
                 {
-                    cart.CartStatus = 1;
+                    cart.CartStatus = (int)AddTo.Cart;
 
                 }
                 var cartPoduct=await _context.Carts.AddAsync(cart);
@@ -88,28 +88,38 @@ namespace E_Commerce.Repository
 
         }
 
-        public PlaceOrderModel GetPlaceOrderModel()
+        public PlaceOrderModel GetPlaceOrderModel(int cartId)
         {
             PlaceOrderModel placeOrder = new PlaceOrderModel()
             {
                 Addresses = addressRepository.GetAllAddresses(),
-                Products = productRepository.AllCartProducts("cart"),
             };
+            if (cartId == 0)
+            {
+
+                placeOrder.Products = productRepository.AllCartProducts("cart",cartId);
+            }
+            else
+            {
+                placeOrder.Products = productRepository.AllCartProducts("order", cartId);
+            }
             return placeOrder;
         } 
 
 
 
-        public PlaceOrderModel CompleteOrder(PlaceOrderModel placeOrderModel)
+        public bool CompleteOrder(PlaceOrderModel placeOrderModel)
         {
             /*_context.Database.SqlQuery<>*/
             var userId = _userService.GetUserId();
             
-            var orders=_context.Orders.FromSqlRaw<Order>($"PlaceOrder @UserId ='{userId}',@AddressId={placeOrderModel.AddressId}, @CartId =0 ").ToList();
-
-
-            
-            return placeOrderModel;
+            var orders=_context.Orders.FromSqlRaw<Order>($"PlaceOrder @UserId ='{userId}',@AddressId={placeOrderModel.AddressId}, @CartId = {placeOrderModel.CartProductId} ").ToList();
+            if (orders.Count()>0)
+            {
+                return true;
+            }
+            return false;           
+            //return placeOrderModel;
 
         }
 

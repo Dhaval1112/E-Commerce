@@ -24,6 +24,7 @@ namespace E_Commerce.Models
         public float TotalPrice { get; set; }
         public float TotalDiscount { get; set; }
         public int FromWhichAction { get; set; }
+        public int ProductStock { get; set; }
 
 
     }

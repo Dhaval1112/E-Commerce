@@ -146,10 +146,20 @@ namespace E_Commerce.Areas.Admin.Controllers
 
         public IActionResult GetAllProducts()
         {
+            //var products = _productRepository.GetAllProducts();
+
+            return View();
+        }
+
+
+        public IActionResult GetAllProductsJSON()
+        {
             var products = _productRepository.GetAllProducts();
 
-            return View(products);
+            return Json(new { data=products });
         }
+
+
 
         public IActionResult Index()
         {

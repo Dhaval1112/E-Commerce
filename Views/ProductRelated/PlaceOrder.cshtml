@@ -4,6 +4,7 @@
     var GrandTotal = 0;
     var GrandDiscount = 0;
 }
+
 <style>
     .cartListImageDiv {
         max-height: 11rem;
@@ -67,214 +68,325 @@
 
 
 
+<h1>
+    @if (!String.IsNullOrEmpty(Context.Request.Query["orderId"].ToString()))
+    {
+
+        Model.CartProductId = Convert.ToInt32(Context.Request.Query["orderId"].ToString());
+    }
+
+</h1>
 
 
+@if (Model.Products.Count == 0)
+{
+    <div class="card container">
+        <div class="card-body">
+            <h3>Checkout product</h3>
 
-<form method="post">
+            <div class="row">
+                <div class="col-4 offset-4 ">
 
-    <!--Product related details-->
-    <div class="container  ">
-
-
-
-        <div class="row flex-row p-2">
-            <div class="col-lg-8 ">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Order items(@Model.Products.Count)</h4>
-                    </div>
-                    <div class="card-body">
-
-                        @foreach (var item in Model.Products)
-                        {
-
-                            <div class="mb-2 row border m-2 py-2 rounded">
-                                <div class="col-3 col-sm-3 col-md-3 col-lg-2">
-
-                                    <div class="cartListImageDiv border p-2">
-                                        <img class="img-fluid cartImage" src="@item.ProductCoverImageUrl" alt="Alternate Text" />
-                                    </div>
-                                </div>
-
-                                @*7 in*@
-                                <div class="col-7">
-                                    <p class="fs-5 productName">
-                                        @item.ProductName
-                                    </p>
-                                    @*<p class="productSaler">Saler name: @item.ProductSaler</p>*@
-
-                                    @{
-
-                                        GrandTotal += (int)item.TotalPrice;
-                                        GrandDiscount += (int)item.TotalDiscount;
-
-                                        <div>
-
-                                            <span class="fw-bold  me-1">₹@item.DiscountedPrice</span> <span class="wdtotal"><strike> ₹@item.TotalPrice</strike></span> <span class="cartDiscount fw-bold text-success">@item.ProductDiscount% off</span>
-                                        </div>
-                                    }
-
-                                    <div class="mt-2">
-
-                                        <span class="fw-bold productQuantity me-2">Quantity: @item.Quantity</span>
-                                        <a class="fs-6 text-uppercase text-decoration-none" asp-controller="ProductRelated" asp-action="RemoveFromCart" asp-route-cartId="@item.Id" asp-route-status="order">Remove</a>
-                                    </div>
-                                </div>
-                                @*3 in*@
-                                <div class="col-3">
-                                    <p>
-                                        TOTAL: @(item.DiscountedPrice * item.Quantity)
-                                    <p />
-
-                                </div>
-
-                            </div>
-
-
-                        }
-                    </div>
-
-
+                    <img src="/svgs/Empty-bro.svg" alt="Alternate Text" />
                 </div>
-
-
-
-                <!-- address details -->
-
-
-                <div class="col-md-12 mt-3 ">
-                    <div class="card shadow-sm">
-
-                        <div class="card-header">
-                            <h4>
-                                Address details
-                            </h4> 
-                        </div>
-                        <div class="card-body">
-                            <span asp-validation-for="AddressId" class="text-danger alert"></span>
-
-                            @foreach (var item in Model.Addresses)
-                            {
-                                <label class="row border m-2 rounded py-2" style="cursor:pointer;" for="address_@item.Id">
-
-                                    <div class="col-2 col-lg-1 d-flex align-items-center">
-                                        <input type="radio" class="form-check-input" id="address_@item.Id" asp-for="AddressId" value="@item.Id" />
-                                    </div>
-                                    <div class="col-10 col-lg-11">
-
-                                        <div class="fw-bold">
-
-                                            @item.Name
-                                        </div>
-
-                                        <div>Address : @item.AddressArea</div>
-                                        <div class="text-secondary">
-                                            @item.City - @item.State
-                                        </div>
-                                    </div>
-
-                                </label>
-                            }
-
-                        </div>
-                    </div>
-                </div>
-                <!--Address detail ends here-->
-                <!--Payment details Start-->
-
-                <div class="col-md-12 mt-3 ">
-                    <div class="card shadow-sm">
-
-                        <div class="card-header">
-                            <h4>
-                                Payment details
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            <span asp-validation-for="PaymentMethodId" class="text-danger alert"></span>
-
-                            <div class="row border m-2 rounded py-2">
-
-                                <div class="col-2 col-lg-1 d-flex align-items-center">
-                                    <input type="radio" class="form-check-input" id="paymentCOD" asp-for="PaymentMethodId" value="1" />
-                                </div>
-                                <div class="col-10 col-lg-11">
-
-                                    <label class="fw-bold" for="paymentCOD">
-                                        Cash On Delevery
-                                    </label>
-
-
-                                </div>
-
-                            </div>
-                            <div class="row border m-2 rounded py-2">
-                                <div class="col-2 col-lg-1 d-flex align-items-center">
-                                    <input type="radio" class="form-check-input" id="paymentCOD" asp-for="PaymentMethodId" value="2" />
-                                </div>
-                                <div class="col-10 col-lg-11">
-
-                                    <label class="fw-bold">
-                                        CREDIT / DEBIT CARD
-                                    </label>
-
-
-                                </div>
-
-                             </div>
-                            </div>
-                        </div>
-                </div>
-
-                <!--Payment details End-->
-
-            </div>
-
-
-
-
-            @*        <div class="col-md-4 ">*@
-            <div class="col-lg-4 sticky-lg-top">
-                <div class="border rounded shadow-sm">
-                    <h4 class="p-2 text-uppercase text-secondary mt-2">Price Details</h4>
-                    <hr />
-                    <div class="px-5 mb-3 ">
-                        <span class="me-auto ">
-                            Price Details (@Model.Products.Count)
-                        </span>
-                        <span class="float-end  ">
-                            ₹ @GrandTotal
-
-                        </span>
-
-                    </div>
-                    <div class="px-5 mb-3">
-                        <span class="me-auto">
-                            Total savings
-                        </span>
-                        <span class="float-end text-success">
-                            - ₹ @GrandDiscount
-
-                        </span>
-
-                    </div>
-                    <div>
-
-                        <hr style="border: 1px dashed #C0C0C0" class="mx-3" />
-                        <div class="px-5">
-
-                            <span class="fw-bold">Total Amount</span>
-                            <span class="fw-bold float-end">₹@(GrandTotal-GrandDiscount)</span>
-                        </div>
-                        <hr style="border: 1px dashed #C0C0C0" class="mx-3" />
-
-                        <div class="row px-4">
-                            <button type="submit" class="btn btn-danger text-uppercase fw-bold d-block placeOrderButton" style="letter-spacing:1px;">Checkout now</button>
-                        </div>
-                    </div>
+                <div class="text-center">
+                    <h3>Do not have account..!</h3>
+                    <p>You do not have any cart or early checkout product..!</p>
                 </div>
             </div>
         </div>
-
     </div>
-</form>
+
+}
+else
+{
+
+
+    @if (TempData["IsOrder"]?.ToString() == "True")
+    {
+
+        <div class="container">
+            <div class="card ">
+
+
+                <div class="card-body">
+
+                    <div class="col-4 text-center offset-4">
+                        <img class="img-fluid" src="~/img/order_confirmed.jpg" alt="place order pic" />
+                    </div>
+
+                    <h3 class="text-uppercase  text-center text-secondary">Order Placed successfully done..!</h3>
+                    <div class="text-center">
+
+                        <a class="btn btn-success mb-2 btn-sm text-center" asp-controller="home" asp-action="index">Continue shoping...</a>
+                    </div>
+                    @foreach (var item in Model.Products)
+                    {
+
+                        <div class="mb-2 row border m-2 py-2 rounded bg-white">
+                            <div class="col-3 col-sm-3 col-md-3 col-lg-2">
+
+                                <div class="cartListImageDiv border p-2">
+                                    <img class="img-fluid cartImage" src="@item.ProductCoverImageUrl" alt="Alternate Text" />
+                                </div>
+                            </div>
+
+                            @*7 in*@
+                            <div class="col-7 mt-2">
+                                <p class="fs-5 productName">
+                                    @item.ProductName
+                                </p>
+                                @*<p class="productSaler">Saler name: @item.ProductSaler</p>*@
+
+                                @{
+
+
+
+                                    <div>
+
+                                        <span class="fw-bold  me-1">₹@item.DiscountedPrice</span> <span class="wdtotal"><strike> ₹@item.TotalPrice</strike></span> <span class="cartDiscount fw-bold text-success">@item.ProductDiscount% off</span>
+                                    </div>
+                                }
+
+                                <div class="mt-2 d-none">
+
+                                    <span class="fw-bold productQuantity me-2">Quantity: @item.Quantity</span>
+                                    <a class="fs-6 text-uppercase text-decoration-none" asp-controller="ProductRelated" asp-action="RemoveFromCart" asp-route-cartId="@item.Id" asp-route-status="order">Remove</a>
+                                </div>
+                            </div>
+                            @*3 in*@
+                            <div class="col-3 d-none">
+                                <p>
+                                    TOTAL: @(item.DiscountedPrice * item.Quantity)
+                                <p />
+
+                            </div>
+
+                        </div>
+
+
+                    }
+
+
+                </div>
+            </div>
+            <h1>
+            </h1>
+        </div>
+    }
+    else
+    {
+
+        <form method="post">
+
+            <div class="container  ">
+
+                <!--Product related details-->
+
+                <input type="hidden" asp-for="CartProductId" />
+
+
+                <div class="row flex-row p-2">
+                    <div class="col-lg-8 ">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Order items(@Model.Products.Count)</h4>
+                            </div>
+                            <div class="card-body">
+
+                                @foreach (var item in Model.Products)
+                                {
+
+                                    <div class="mb-2 row border m-2 py-2 rounded">
+                                        <div class="col-3 col-sm-3 col-md-3 col-lg-2">
+
+                                            <div class="cartListImageDiv border p-2">
+                                                <img class="img-fluid cartImage" src="@item.ProductCoverImageUrl" alt="Alternate Text" />
+                                            </div>
+                                        </div>
+
+                                        @*7 in*@
+                                        <div class="col-7">
+                                            <p class="fs-5 productName">
+                                                @item.ProductName
+                                            </p>
+                                            @*<p class="productSaler">Saler name: @item.ProductSaler</p>*@
+
+                                            @{
+
+                                                GrandTotal += (int)item.TotalPrice;
+                                                GrandDiscount += (int)item.TotalDiscount;
+
+                                                <div>
+
+                                                    <span class="fw-bold  me-1">₹@item.DiscountedPrice</span> <span class="wdtotal"><strike> ₹@item.TotalPrice</strike></span> <span class="cartDiscount fw-bold text-success">@item.ProductDiscount% off</span>
+                                                </div>
+                                            }
+
+                                            <div class="mt-2">
+
+                                                <span class="fw-bold productQuantity me-2">Quantity: @item.Quantity</span>
+                                                <a class="fs-6 text-uppercase text-decoration-none" asp-controller="ProductRelated" asp-action="RemoveFromCart" asp-route-cartId="@item.Id" asp-route-status="order">Remove</a>
+                                            </div>
+                                        </div>
+                                        @*3 in*@
+                                        <div class="col-3">
+                                            <p>
+                                                TOTAL: @(item.DiscountedPrice * item.Quantity)
+                                            <p />
+
+                                        </div>
+
+                                    </div>
+
+
+                                }
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- address details -->
+
+
+                        <div class="col-md-12 mt-3 ">
+                            <div class="card shadow-sm">
+
+                                <div class="card-header">
+                                    <h4>
+                                        Address details
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <span asp-validation-for="AddressId" class="text-danger alert"></span>
+
+                                    @foreach (var item in Model.Addresses)
+                                    {
+                                        <label class="row border m-2 rounded py-2" style="cursor:pointer;" for="address_@item.Id">
+
+                                            <div class="col-2 col-lg-1 d-flex align-items-center">
+                                                <input type="radio" class="form-check-input" id="address_@item.Id" asp-for="AddressId" value="@item.Id" />
+                                            </div>
+                                            <div class="col-10 col-lg-11">
+
+                                                <div class="fw-bold">
+
+                                                    @item.Name
+                                                </div>
+
+                                                <div>Address : @item.AddressArea</div>
+                                                <div class="text-secondary">
+                                                    @item.City - @item.State
+                                                </div>
+                                            </div>
+
+                                        </label>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--Address detail ends here-->
+                        <!--Payment details Start-->
+
+                        <div class="col-md-12 mt-3 ">
+                            <div class="card shadow-sm">
+
+                                <div class="card-header">
+                                    <h4>
+                                        Payment details
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <span asp-validation-for="PaymentMethodId" class="text-danger alert"></span>
+
+                                    <div class="row border m-2 rounded py-2">
+
+                                        <div class="col-2 col-lg-1 d-flex align-items-center">
+                                            <input type="radio" class="form-check-input" id="paymentCOD" asp-for="PaymentMethodId" value="1" />
+                                        </div>
+                                        <div class="col-10 col-lg-11">
+
+                                            <label class="fw-bold" for="paymentCOD">
+                                                Cash On Delevery
+                                            </label>
+
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row border m-2 rounded py-2">
+                                        <div class="col-2 col-lg-1 d-flex align-items-center">
+                                            <input type="radio" class="form-check-input" id="paymentCOD" asp-for="PaymentMethodId" value="2" />
+                                        </div>
+                                        <div class="col-10 col-lg-11">
+
+                                            <label class="fw-bold">
+                                                CREDIT / DEBIT CARD
+                                            </label>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Payment details End-->
+
+                    </div>
+
+
+
+
+                    @*        <div class="col-md-4 ">*@
+                    <div class="col-lg-4 sticky-lg-top">
+                        <div class="border rounded shadow-sm">
+                            <h4 class="p-2 text-uppercase text-secondary mt-2">Price Details</h4>
+                            <hr />
+                            <div class="px-5 mb-3 ">
+                                <span class="me-auto ">
+                                    Price Details (@Model.Products.Count)
+                                </span>
+                                <span class="float-end  ">
+                                    ₹ @GrandTotal
+
+                                </span>
+
+                            </div>
+                            <div class="px-5 mb-3">
+                                <span class="me-auto">
+                                    Total savings
+                                </span>
+                                <span class="float-end text-success">
+                                    - ₹ @GrandDiscount
+
+                                </span>
+
+                            </div>
+                            <div>
+
+                                <hr style="border: 1px dashed #C0C0C0" class="mx-3" />
+                                <div class="px-5">
+
+                                    <span class="fw-bold">Total Amount</span>
+                                    <span class="fw-bold float-end">₹@(GrandTotal-GrandDiscount)</span>
+                                </div>
+                                <hr style="border: 1px dashed #C0C0C0" class="mx-3" />
+
+                                <div class="row px-4">
+                                    <button type="submit" class="btn btn-danger text-uppercase fw-bold d-block placeOrderButton" style="letter-spacing:1px;">Checkout now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    }
+
+}

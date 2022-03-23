@@ -24,4 +24,8 @@
     <Folder Include="wwwroot\Product\Gallery\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\img\order_confirmed.jpg" />
+  </ItemGroup>
+
 </Project>

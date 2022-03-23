@@ -41,7 +41,7 @@
                 <a asp-area="admin" asp-controller="product" asp-action="create" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-project-diagram me-2"></i>Projects | create product
                 </a>
-                <a  asp-area="admin" asp-controller="product" asp-action="GetAllProducts" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a asp-area="admin" asp-controller="product" asp-action="GetAllProducts" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-chart-line me-2"></i>Analytics | get all products
                 </a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -119,7 +119,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-    
+   @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

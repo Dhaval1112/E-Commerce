@@ -82,6 +82,13 @@ namespace E_Commerce.Areas.Admin.Controllers
 
             return View(categories);
         }
+        
+        public IActionResult GetAllCategoriesJSON()
+        {
+            var categories = _categoryRepository.AllCategories();
+            return Json(new { data = categories });
+            //return View(categories);
+        }
 
 
         public IActionResult EditCategory(int id)

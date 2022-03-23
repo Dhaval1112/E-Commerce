@@ -56,14 +56,14 @@
 
     }
 
-/*
-    function AddToCartEvent(productId) {
+
+    function AddToCartForOrderEvent(productId) {
         alert('Order button clicked ' + productId);
         var obj = document.getElementById('orderStatus');
         obj.value = 'order';
         document.getElementById('AddToCartForm').submit();
     }
-*/
+
 
 </script>
 
@@ -75,8 +75,8 @@
 
 <div class="container">
     @if (Model.IsInOrder) { 
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#exclamation-triangle-fill" /></svg>
 
             <span>This product's order currently in panding click <strong> Complete order </strong> to proceed.</span>
             <div class="me-auto">
@@ -181,7 +181,7 @@
                         @if (!Model.IsInOrder)
                         {
 
-                            <a data-toggle="modal" onClick="AddToCartEvent(@Model.Id);" class="btn btn-outline-primary" data-target="#exampleModal">
+                            <a data-toggle="modal" onClick="AddToCartForOrderEvent(@Model.Id);" class="btn btn-outline-primary" data-target="#exampleModal">
                                 <i class="fa-solid fa-bolt-lightning me-2"></i> Buy Now!
                             </a>
 
