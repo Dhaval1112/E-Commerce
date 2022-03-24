@@ -120,7 +120,7 @@
                     <br />
                     <div class="form-group">
                         <label asp-for="CoverImage" class="control-label"></label><br />
-                        <input asp-for="CoverImage" class="form-control-file" id="file" />
+                        <input asp-for="CoverImage" class="form-control" id="file" />
                         <span asp-validation-for="CoverImage" class="text-danger"></span>
                         <div id="image_preview_one" class="d-flex flex-row mt-2">
 
@@ -131,7 +131,7 @@
 
                     <div class="form-group">
                         <label asp-for="GalleryFiles" class="control-label"></label><br />
-                        <input asp-for="GalleryFiles" class="form-control-file" onchange="preview_image()" id="files" />
+                        <input asp-for="GalleryFiles" class="form-control" onchange="preview_image()" id="files" />
                         <span asp-validation-for="GalleryFiles" class="text-danger"></span>
 
                         <div id="image_preview" class="d-flex flex-row mt-2">
@@ -141,7 +141,7 @@
 
 
                     <br />
-                    x
+                    
                     <div class="form-group">
                         <input type="submit" value="Update Product" class="btn btn-primary" />
                     </div>

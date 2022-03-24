@@ -147,5 +147,17 @@ namespace E_Commerce.Repository
 
             return orders;
         }
+
+        public OrderModel GetAllUserOrders()
+        {
+
+            OrderModel orderModel = new OrderModel();
+            orderModel.orders = _context.Orders.ToList();
+            orderModel.numberOfOrders = orderModel.orders.Count;
+            orderModel.numberOfProducts = _context.Products.ToList().Count;
+            orderModel.Sales = 26;
+            return orderModel;
+           
+        }
     }
 }

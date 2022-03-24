@@ -1,0 +1,135 @@
+﻿@model Order
+@using E_Commerce.Enums
+
+@if (TempData["IsUpdateOrder"] is not null)
+{
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+        Order status changed successfully done..!
+        <div class="me-auto">
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+}
+<div class="container-fluid ">
+    <h3 class="pt-2">Order details</h3>
+    <hr class="text-success rounded" style="width:100px; height:10px;" />
+
+    <div class="row">
+        <div class="col-8">
+
+            <div class="card p-4 shadow-sm">
+                <h5 style="margin-bottom:-8px;">Product related details</h5>
+                <hr class="text-success rounded" style="width:100px; height:10px;" />
+                <div class="row ">
+                    <div class="mb-3">
+                        <div style="max-height: 200px; max-width:150px;;">
+
+                            <img src="@Model.ProductCoverImage" class="img-fluid " alt="Alternate Text" />
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="col-4 fw-bold">
+                        <p>Product name </p>
+                        <p>Product Quantity </p>
+                        <p>Product Price </p>
+                    </div>
+
+                    <div class="col-8">
+                        <p>@Model.ProductName</p>
+                        <p>@Model.ProductQuantity</p>
+                        <p>@Model.ProcuctPrice</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card mt-2 shadow-sm">
+
+                <div class="row p-4">
+                    <div class="col-12">
+
+                        <h5 style="margin-bottom:-8px;">User address details</h5>
+                        <hr class="text-success rounded" style="width:100px; height:10px;" />
+
+                    </div>
+                    <div class="col-4 fw-bold">
+                        <p>Address name </p>
+                        <p>Address Contact number </p>
+                        <p>Full address</p>
+                        <p>Address City </p>
+                    </div>
+
+                    <div class="col-8">
+                        <p>@Model.AddressName</p>
+                        <p>@Model.AddressMobile</p>
+                        <p>@Model.AddressArea</p>
+                        <p>@Model.AddressCity</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card mt-2 shadow-sm">
+
+                <div class="row p-4">
+                    <div class="col-12">
+
+                        <h5 style="margin-bottom:-8px;">User Contact details</h5>
+                        <hr class="text-success rounded" style="width:100px; height:10px;" />
+
+                    </div>
+                    <div class="col-4 fw-bold">
+                        <p>User mobile number </p>
+                        <p>User Email address</p>
+                    </div>
+
+                    <div class="col-8">
+                        <p>@Model.MobileNumber</p>
+                        <p>@Model.Email</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card p-4">
+                <h5 style="margin-bottom:-8px;">Product current status</h5>
+                <hr class="text-success rounded" style="width:100px; height:10px;" />
+
+                <form method="post">
+
+                    <div class="form-group">
+                        <label asp-for="OrderStatus" class="form-label"></label>
+                        @*<select asp-for="OrderStatus" class="form-control" asp-items="@Html.GetEnumSelectList<OrderStatus>()">
+                        </select>*@
+
+
+
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelectGrid" asp-for="OrderStatus" aria-label="Floating label select example" asp-items="@Html.GetEnumSelectList<OrderStatus>()">
+                               
+                            </select>
+                            <label for="floatingSelectGrid">Order status</label>
+                        </div>
+
+                        <span asp-validation-for="OrderStatus" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <input type="hidden" asp-for="Id" />
+                    <div>
+
+                        <button class="btn w-100" type="submit" style="border-radius:0px; background-color:orangered; font-weight:bold; color:white;">Update status</button>
+                    </div>
+                </form>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -68,6 +68,8 @@ namespace E_Commerce
 
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<ICartOrderRepository, CartOrderRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
 
 
         }

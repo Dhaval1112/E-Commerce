@@ -1,172 +1,174 @@
 ﻿@model E_Commerce.Areas.Admin.Models.ProductModel
 @inject E_Commerce.Areas.Admin.Repository.ICategoryRepository _categoryRepository
-    
 
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.0/tinymce.min.js"
-            integrity="sha512-XQOOk3AOZDpVgRcau6q9Nx/1eL0ATVVQ+3FQMn3uhMqfIwphM9rY6twWuCo7M69rZPdowOwuYXXT+uOU91ktLw=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
 
-    <script>
-        tinymce.init({
-            selector: "#mytextarea",
-            menubar: true,
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.0/tinymce.min.js"
+        integrity="sha512-XQOOk3AOZDpVgRcau6q9Nx/1eL0ATVVQ+3FQMn3uhMqfIwphM9rY6twWuCo7M69rZPdowOwuYXXT+uOU91ktLw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
 
-            plugins: "link image code lists",
-            block_formats: "Paragraph=p; Header 1=h1; Header 2=h2; Header 3=h3",
-            toolbar:
-                "undo redo | fontsizeselect | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image | code | numlist bullist ",
-        });
-    </script>
+<script>
+    tinymce.init({
+        selector: "#mytextarea",
+        menubar: true,
 
-    <style>
-        .bd {
-            border: 2px solid black;
-            margin-right: 10px;
-        }
-    </style>
+        plugins: "link image code lists",
+        block_formats: "Paragraph=p; Header 1=h1; Header 2=h2; Header 3=h3",
+        toolbar:
+            "undo redo | fontsizeselect | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image | code | numlist bullist ",
+    });
+</script>
 
+<style>
+    .bd {
+        border: 2px solid black;
+        margin-right: 10px;
+    }
+</style>
 
-    <h4>ProductModel</h4>
-    <hr />
-    <div class="row">
-        @if (ViewBag?.IsSuccess == true)
-        {
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+<div class="text-center">
 
-                Product added Successfully done..!
-                <div class="me-auto">
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <h3 class="text-center">Create product</h3>
+    <hr style="width:22px;"/>
+</div>
+<div class="row">
+    @if (ViewBag?.IsSuccess == true)
+    {
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
+
+            Product added Successfully done..!
+            <div class="me-auto">
             </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
-            ViewBag.IsSuccess = false;
-        }
-
-
-
-        <div class="col-10 offset-1">
-            <form asp-action="Create" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group">
-                    <label asp-for="ProductName" class="control-label"></label>
-                    <input asp-for="ProductName" class="form-control" />
-                    <span asp-validation-for="ProductName" class="text-danger"></span>
-                </div>
-                <br />
-
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea id="mytextarea" asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <br />
+        ViewBag.IsSuccess = false;
+    }
 
 
 
-                <div class="form-group">
-                    <label asp-for="CategoryId" class="form-label"></label>
-                    <select asp-for="CategoryId" class="form-control" asp-items="_categoryRepository.AllCategories().Select(x=> new SelectListItem() {
+    <div class="col-10 offset-1">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea id="mytextarea" asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <br />
+
+
+
+            <div class="form-group">
+                <label asp-for="CategoryId" class="form-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="_categoryRepository.AllCategories().Select(x=> new SelectListItem() {
                                     Text=x.CategoryName,
                                     Value=x.Id.ToString()
                                    } )">
 
-                        <option value="">Please choose product's Category..!</option>
+                    <option value="">Please choose product's Category..!</option>
 
-                    </select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="SalerName" class="control-label"></label>
+                <input asp-for="SalerName" class="form-control" />
+                <span asp-validation-for="SalerName" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="CoverImage" class="control-label"></label><br />
+                <input asp-for="CoverImage" class="form-control" id="file" />
+                <span asp-validation-for="CoverImage" class="text-danger"></span>
+                <div id="image_preview_one" class="d-flex flex-row mt-2">
+
                 </div>
+            </div>
+            <br />
 
 
-                <br />
+            <div class="form-group">
+                <label asp-for="GalleryFiles" class="control-label"></label><br />
+                <input asp-for="GalleryFiles" class="form-control" onchange="preview_image()" id="files" />
+                <span asp-validation-for="GalleryFiles" class="text-danger"></span>
 
-                <div class="form-group">
-                    <label asp-for="Price" class="control-label"></label>
-                    <input asp-for="Price" class="form-control" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
+                <div id="image_preview" class="d-flex flex-row mt-2">
+
                 </div>
-                <br />
-
-                <div class="form-group">
-                    <label asp-for="Stock" class="control-label"></label>
-                    <input asp-for="Stock" class="form-control" />
-                    <span asp-validation-for="Stock" class="text-danger"></span>
-                </div>
-                <br />
-
-                <div class="form-group">
-                    <label asp-for="Discount" class="control-label"></label>
-                    <input asp-for="Discount" class="form-control" />
-                    <span asp-validation-for="Discount" class="text-danger"></span>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label asp-for="SalerName" class="control-label"></label>
-                    <input asp-for="SalerName" class="form-control" />
-                    <span asp-validation-for="SalerName" class="text-danger"></span>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label asp-for="CoverImage" class="control-label"></label><br />
-                    <input asp-for="CoverImage" class="form-control-file" id="file" />
-                    <span asp-validation-for="CoverImage" class="text-danger"></span>
-                    <div id="image_preview_one" class="d-flex flex-row mt-2">
-
-                    </div>
-                </div>
-                <br />
+            </div>
 
 
-                <div class="form-group">
-                    <label asp-for="GalleryFiles" class="control-label"></label><br />
-                    <input asp-for="GalleryFiles" class="form-control-file" onchange="preview_image()" id="files" />
-                    <span asp-validation-for="GalleryFiles" class="text-danger"></span>
+            <br />
 
-                    <div id="image_preview" class="d-flex flex-row mt-2">
-
-                    </div>
-                </div>
-
-
-                <br />
-
-                <div class="form-group">
-                    <input type="submit" value="Create Product" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+                <input type="submit" value="Create Product" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
+</div>
 
 
-    <script>
-        document.getElementById('file').onchange = function () {
-            $('#image_preview_one').empty();
-            var src = URL.createObjectURL(this.files[0])
-            $('#image_preview_one').append("<img height=100 width=100 class='bd' src='" + src + "'>");
-            //document.getElementById('image').src = src
+<script>
+    document.getElementById('file').onchange = function () {
+        $('#image_preview_one').empty();
+        var src = URL.createObjectURL(this.files[0])
+        $('#image_preview_one').append("<img height=100 width=100 class='bd' src='" + src + "'>");
+        //document.getElementById('image').src = src
+    }
+</script>
+
+
+<script>
+    function preview_image() {
+        var total_file = document.getElementById("files").files.length;
+        $('#image_preview').empty();
+        for (var i = 0; i < total_file; i++) {
+
+            $('#image_preview').append("<img height=100 width=100 class='bd' src='" + URL.createObjectURL(event.target.files[i]) + "'>");
         }
-    </script>
+    }
+</script>
 
-
-    <script>
-        function preview_image() {
-            var total_file = document.getElementById("files").files.length;
-            $('#image_preview').empty();
-            for (var i = 0; i < total_file; i++) {
-
-                $('#image_preview').append("<img height=100 width=100 class='bd' src='" + URL.createObjectURL(event.target.files[i]) + "'>");
-            }
-        }
-    </script>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 
 

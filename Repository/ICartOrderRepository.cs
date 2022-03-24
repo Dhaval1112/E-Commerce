@@ -13,5 +13,6 @@ namespace E_Commerce.Repository
         PlaceOrderModel GetPlaceOrderModel(int id);
         bool CompleteOrder(PlaceOrderModel order);
         List<Order> GetAllOrders();
+        OrderModel GetAllUserOrders();
     }
 }
