@@ -113,6 +113,7 @@ namespace E_Commerce.Repository
         public async Task<IList<string>> GetRoleByEmail(string email)
         { 
             var user = await _userManager.FindByEmailAsync(email);
+
             var role = await _userManager.GetRolesAsync(user);
             return role;
         }

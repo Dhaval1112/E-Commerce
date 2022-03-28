@@ -1,5 +1,7 @@
-﻿using E_Commerce.Models;
+﻿using E_Commerce.Areas.Admin.Repository;
+using E_Commerce.Models;
 using E_Commerce.Repository;
+using E_Commerce.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,13 +11,18 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly ICartOrderRepository _cartOrderRepository;
+        private readonly IUserService _userService;
 
-        public AccountController(IAccountRepository accountRepository)
+        public AccountController(IAccountRepository accountRepository, ICartOrderRepository cartOrderRepository,IUserService userService)
         {
             _accountRepository = accountRepository;
+            this._cartOrderRepository = cartOrderRepository;
+            this._userService = userService;
         }
 
 
@@ -54,7 +61,16 @@ namespace E_Commerce.Controllers
         /*Login for returning view*/
         public IActionResult Login()
         {
-            return View();
+            if (_userService.IsAuthanticated())
+            {
+
+              
+                return RedirectToAction("Index","Home",new { refresh="a"});
+            }
+            else
+            {
+                return View();
+            }
         }
 
         /*For getting data*/
@@ -68,10 +84,12 @@ namespace E_Commerce.Controllers
                 {
                     var roles = await _accountRepository.GetRoleByEmail(model.Email);
                     
+
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
-                        if (!roles.Contains("User"))
+                        if (roles.Contains("User"))
                         {
+
                             return LocalRedirect(returnUrl);
                         }
                         else
@@ -136,9 +154,12 @@ namespace E_Commerce.Controllers
         }
              
         [Route("logout")]
+        [Authorize(Roles ="Admin,User")]
         public async Task<IActionResult> Logout()
         {
+
             await _accountRepository.SignOutAsync();
+
             return RedirectToAction("Index","Home");
         }
 

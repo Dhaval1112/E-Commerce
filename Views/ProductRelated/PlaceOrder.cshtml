@@ -122,50 +122,54 @@ else
                     </div>
                     @foreach (var item in Model.Products)
                     {
-
-                        <div class="mb-2 row border m-2 py-2 rounded bg-white">
-                            <div class="col-3 col-sm-3 col-md-3 col-lg-2">
-
-                                <div class="cartListImageDiv border p-2">
-                                    <img class="img-fluid cartImage" src="@item.ProductCoverImageUrl" alt="Alternate Text" />
-                                </div>
-                            </div>
-
-                            @*7 in*@
-                            <div class="col-7 mt-2">
-                                <p class="fs-5 productName">
-                                    @item.ProductName
-                                </p>
-                                @*<p class="productSaler">Saler name: @item.ProductSaler</p>*@
-
-                                @{
+                        if (item.ProductStock >= item.Quantity)
+                        {
 
 
+                            <div class="mb-2 row border m-2 py-2 rounded bg-white">
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-2">
 
-                                    <div>
-
-                                        <span class="fw-bold  me-1">₹@item.DiscountedPrice</span> <span class="wdtotal"><strike> ₹@item.TotalPrice</strike></span> <span class="cartDiscount fw-bold text-success">@item.ProductDiscount% off</span>
+                                    <div class="cartListImageDiv border p-2">
+                                        <img class="img-fluid cartImage" src="@item.ProductCoverImageUrl" alt="Alternate Text" />
                                     </div>
-                                }
-
-                                <div class="mt-2 d-none">
-
-                                    <span class="fw-bold productQuantity me-2">Quantity: @item.Quantity</span>
-                                    <a class="fs-6 text-uppercase text-decoration-none" asp-controller="ProductRelated" asp-action="RemoveFromCart" asp-route-cartId="@item.Id" asp-route-status="order">Remove</a>
                                 </div>
-                            </div>
-                            @*3 in*@
-                            <div class="col-3 d-none">
-                                <p>
-                                    TOTAL: @(item.DiscountedPrice * item.Quantity)
-                                <p />
+
+                                @*7 in*@
+                                <div class="col-7 mt-2">
+                                    <p class="fs-5 productName">
+                                        @item.ProductName
+                                    </p>
+                                    @*<p class="productSaler">Saler name: @item.ProductSaler</p>*@
+
+                                    @{
+
+
+
+                                        <div>
+
+                                            <span class="fw-bold  me-1">₹@item.DiscountedPrice</span> <span class="wdtotal"><strike> ₹@item.TotalPrice</strike></span> <span class="cartDiscount fw-bold text-success">@item.ProductDiscount% off</span>
+                                        </div>
+                                    }
+
+                                    <div class="mt-2 d-none">
+
+                                        <span class="fw-bold productQuantity me-2">Quantity: @item.Quantity</span>
+                                        <a class="fs-6 text-uppercase text-decoration-none" asp-controller="ProductRelated" asp-action="RemoveFromCart" asp-route-cartId="@item.Id" asp-route-status="order">Remove</a>
+                                    </div>
+                                </div>
+                                @*3 in*@
+                                <div class="col-3 d-none">
+                                    <p>
+                                        TOTAL: @(item.DiscountedPrice * item.Quantity)
+                                    <p />
+
+                                </div>
 
                             </div>
+                        }
 
-                        </div>
 
-
-                    }
+                }
 
 
                 </div>
@@ -189,14 +193,15 @@ else
                 <div class="row flex-row p-2">
                     <div class="col-lg-8 ">
                         <div class="card">
-                            <div class="card-header">
-                                <h4>Order items(@Model.Products.Count)</h4>
+                            <div class="card-header bg-success text-white">
+                                <h4 class="mt-1"><span class="bg-white text-success mr-3 px-2">1</span> Order items(@Model.Products.Count)</h4>
                             </div>
                             <div class="card-body">
 
                                 @foreach (var item in Model.Products)
                                 {
-
+                                    @if (item.ProductStock > item.Quantity)
+                                    {
                                     <div class="mb-2 row border m-2 py-2 rounded">
                                         <div class="col-3 col-sm-3 col-md-3 col-lg-2">
 
@@ -232,14 +237,14 @@ else
                                         @*3 in*@
                                         <div class="col-3">
                                             <p>
-                                                TOTAL: @(item.DiscountedPrice * item.Quantity)
+                                                Saving @(((item.Price * item.Quantity)- item.DiscountedPrice ).ToString("c"))
                                             <p />
 
                                         </div>
 
                                     </div>
 
-
+                                    }
                                 }
                             </div>
 

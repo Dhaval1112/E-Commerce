@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Models;
 using E_Commerce.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
     public class AddressController : Controller
     {
         private readonly IAddressRepository _addressRepository;

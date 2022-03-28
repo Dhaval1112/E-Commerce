@@ -239,6 +239,7 @@ namespace E_Commerce.Areas.Admin.Repository
             return (int) Math.Ceiling(((price* discount)/100)*quantity);
         }
 
+        
 
         public List<CartModel> AllCartProducts(string productsStatus,int cartId=0)
         {
@@ -339,6 +340,26 @@ namespace E_Commerce.Areas.Admin.Repository
         }
 
 
+
+        public List<ProductModel> SearchProduct(string productName)
+        {
+            var products=_context.Products.Where(product => product.ProductName.Contains(productName) || product.Category.CategoryName.Contains( productName)).Select( product=>
+                new ProductModel()
+                {
+
+                    Id = product.Id,
+                    ProductName = product.ProductName,
+                    Description=product.Description,
+                    CoverImageUrl = product.CoverImageUrl,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    Discount = product.Discount,
+                    SalerName = product.SalerName,
+
+                }).ToList();
+            return products;
+            
+        }
 
         
     }

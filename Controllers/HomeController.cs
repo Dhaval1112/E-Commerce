@@ -1,5 +1,7 @@
-﻿using E_Commerce.Areas.Admin.Repository;
+﻿using E_Commerce.Areas.Admin.Models;
+using E_Commerce.Areas.Admin.Repository;
 using E_Commerce.Models;
+using E_Commerce.Repository;
 using E_Commerce.Services;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
@@ -14,30 +16,45 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
+
 namespace E_Commerce.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICartOrderRepository _cartOrderRepository;
 
-        public HomeController(ILogger<HomeController> logger,IUserService userService,IEmailService emailService, IProductRepository productRepository)
+        public HomeController(ILogger<HomeController> logger,IUserService userService,IEmailService emailService, IProductRepository productRepository, ICategoryRepository categoryRepository,ICartOrderRepository cartOrderRepository)
         {
             _logger = logger;
             this._userService = userService;
             this._emailService = emailService;
             this._productRepository = productRepository;
+            this._categoryRepository = categoryRepository;
+            this._cartOrderRepository = cartOrderRepository;
         }
 
-        
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            // was last Working commit ::  Added profile page with edit functionality 
-            //var userId = _userService.GetUserId();
-            var AllProducts = _productRepository.GetAllProducts();
-            return View(AllProducts);
+            UserHomePageModel userHomePageModel = new UserHomePageModel();
+            userHomePageModel.Products = _productRepository.GetAllProducts();
+            userHomePageModel.Categories =_categoryRepository.AllCategories().GetRange(1,4);
+
+            TempData["CartCount"] = _cartOrderRepository.getCartCount().ToString();
+            return View(userHomePageModel);
+        }
+        
+
+        public IActionResult SearchProductByName(string productName)
+        {
+            var products = _productRepository.SearchProduct(productName);
+            return View(products);       
         }
 
     
@@ -46,7 +63,7 @@ namespace E_Commerce.Controllers
             For multiple roles
          */
 
-        [Authorize(Roles ="User")]
+        
         public IActionResult Privacy()
         {
             return View();

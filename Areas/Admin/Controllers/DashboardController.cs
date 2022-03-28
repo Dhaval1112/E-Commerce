@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Areas.Admin.Repository;
 using E_Commerce.Data;
 using E_Commerce.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace E_Commerce.Areas.Admin.Controllers
 {
     [Area("admin")]
+    [Authorize(Roles ="Admin")]
     public class DashboardController : Controller
     {
         private readonly ICartOrderRepository _cartOrderRepository;

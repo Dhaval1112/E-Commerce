@@ -11,7 +11,7 @@
         <div class="px-3">
 
             <h6 class="text-success">@Model.ProductName</h6>
-            <p class="fw-bold price">Price  <strike class="stike">₹ @Model.Price</strike> ₹ @Convert.ToInt32((Model.Price - ((Model.Price * Model.Discount) / 100)))</p>
+            <p class="fw-bold price">Price  <strike class="stike">₹ @Model.Price</strike> @Convert.ToInt32((Model.Price - ((Model.Price * Model.Discount) / 100))).ToString("c") </p>
         </div>
         @*<a asp-controller="ProductRelated" asp-action="GetProduct" asp-route-id="@product.Id">Show details</a>*@
     </div>

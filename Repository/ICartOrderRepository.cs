@@ -8,11 +8,13 @@ namespace E_Commerce.Repository
 {
     public interface ICartOrderRepository
     {
-        Task<bool> AddToCart(ProductModel product, string productStatus);
+        Task<int> AddToCart(ProductModel product, string productStatus);
         Task<bool> RemoveCartProduct(int productId);
         PlaceOrderModel GetPlaceOrderModel(int id);
         bool CompleteOrder(PlaceOrderModel order);
         List<Order> GetAllOrders();
         OrderModel GetAllUserOrders();
+        int getCartCount();
+        Task<bool> CancelOrder(int id);
     }
 }

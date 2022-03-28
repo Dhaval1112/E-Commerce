@@ -1,0 +1,52 @@
+﻿@model IEnumerable<E_Commerce.Areas.Admin.Models.ProductModel>;
+    <style>
+        .cartListImageDiv {
+            max-height: 11rem;
+            max-width: 6rem;
+        }
+    </style>
+    <div class="container">
+
+
+
+        <h3>
+            Result products
+        </h3>
+            
+            @foreach (var product in Model)
+            {
+
+                <div class="row border rounded mb-2 shadow-sm py-1" style="cursor:pointer;"  onclick="redirectToProduct(@product.Id)">
+
+                    <div class="offset-1 col-2">
+                        <div class="cartListImageDiv p-2 ml-2">
+                            <img src="@product.CoverImageUrl" class="img-fluid" alt="Alternate Text" />
+                        </div>
+                    </div>
+                    <div class="col-8 bg-light">
+                        <h5>@product.ProductName</h5>
+                        <h6 class="text-secondary">@product.SalerName</h6>
+                        <p class="fw-bold text-success">Price  <strike class="stike">₹ @product.Price</strike> @Convert.ToInt32((product.Price - ((product.Price * product.Discount) / 100))).ToString("c") </p>
+
+                    </div>
+                   
+                </div>
+                @*<div class="row">
+
+                    <div class="">
+
+                        <div class="cartListImageDiv p-2 border">
+                            <img class="img-fluid cartImage" src="@product.CoverImageUrl" alt="Alternate Text" />
+                        </div>
+                    </div>
+                    <div class="col-9 border">
+
+                        @product.ProductName
+                    </div>
+                </div>
+                *@
+            }
+        
+
+ 
+</div>

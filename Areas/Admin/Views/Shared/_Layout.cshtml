@@ -11,6 +11,8 @@
 
     <link href="/css/AdminPage.css" rel="stylesheet" />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @*For showing icons font awsome icons*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 </head>
@@ -32,7 +34,7 @@
         <!-- Sidebar -->
         <div class="bg-light" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-                <i class="fas fa-user-secret me-2"></i>Admin
+                <i class="fa-solid fa-user-shield me-2"></i>Admin
             </div>
             <div class="list-group list-group-flush my-3">
                 <a asp-area="admin" asp-controller="Dashboard" asp-action="index" class="list-group-item list-group-item-action bg-transparent second-text active">
@@ -44,11 +46,11 @@
                 <a asp-area="admin" asp-controller="product" asp-action="GetAllProducts" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-chart-line me-2"></i>Analytics | get all products
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-paperclip me-2"></i>Reports
+                <a  asp-area="admin" asp-controller="category" asp-action="create" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-paperclip me-2"></i>category create
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-shopping-cart me-2"></i>Store Mng
+                <a asp-area="admin" asp-controller="category" asp-action="GetAllCategories" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-shopping-cart me-2"></i>all categories
                 </a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-gift me-2"></i>Products
@@ -84,12 +86,11 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>John Doe
+                                <i class="fas fa-user me-2"></i> @(User.FindFirst("UserFirstName").Value+" "+ @User.FindFirst("UserLastName").Value)
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item me-2" asp-controller="Home" asp-action="index" asp-area=""><i class="fa-solid fa-circle-user"></i> Switch to user</a></li>
+                              
                             </ul>
                         </li>
                     </ul>

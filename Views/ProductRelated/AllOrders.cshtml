@@ -3,8 +3,38 @@
 <style>
     .fontSize{
         font-size:12px;
+        margin-right:12px;
+        margin-bottom:5px;
     }
 </style>
+
+<script>
+    function cancelOrder(productName, orderId) {
+        swal("Add To Cart", "Would you like to add " + productName + " into cart???", "info");
+        swal({
+            title: "Cancel order",
+            text: "Would you like to cancel " + productName + " Order ?",
+            icon: "info",
+            buttons: true
+        }).then((result) => {
+            if (result) {
+                //document.getElementById("AddToCartForm").submit();
+            }
+        })
+    }
+</script>
+@if (!String.IsNullOrEmpty(TempData["IsOrderCancel"]?.ToString()) ) {
+                if (TempData["IsOrderCancel"].ToString()=="True")
+                {
+
+                    <h1>order cancel</h1>
+                }
+                else
+                {
+                    <h1>Something went wrong</h1>
+                }
+}
+
 
 
     <div class="container">
@@ -26,6 +56,8 @@
 
                         <span class="fs-5">@product.ProductName</span> <br />
                         <span class="text-primary  badge bg-primary text-white ">Saler : @product.ProductSalerName</span> <br />
+
+                        <span class="fw-bold">Quantity : @product.ProductQuantity</span>
                     </div>
                     
                     <div class="col-2">
@@ -33,7 +65,8 @@
 
                     </div>
                     
-                    <div class="col-2 ">
+                    <div class="col-md-2 col-6 offset-2 offset-md-0 mt-2 mt-md-0">
+                        
                         @if (@product.OrderStatus == (int)OrderStatus.Ordered)
                         {
                             <span class="text-success fontSize">
@@ -62,14 +95,29 @@
                                 </span>
                             </span>
                         }
+                        else if (product.OrderStatus == (int)OrderStatus.Delevered)
+                        {
+                            <span class="text-success fontSize" style="background-color:lightseagreen; padding:5px; font-size:10px; border:1px solid green; border-radius:15px;">
+                                <i class="fa-solid fa-circle"></i>
+                                <span class="fw-bold text-white">
+                                    Delivered
+                                </span>
+                            </span>
+                        }
                         else if (product.OrderStatus == (int)OrderStatus.Cancel)
                         {
                             <span class="text-danger fontSize">
                                 <i class="fa-solid fa-circle"></i>
                                 <span class="fw-bold text-black">
-                                    Cancelled Order
+                                    Cancelled
                                 </span>
                             </span>
+                        }
+                        @if(product.OrderStatus>=(int) OrderStatus.Ordered && product.OrderStatus < (int)OrderStatus.Shipped)
+                        {
+                            <button class="btn btn-danger ml-2  btn-sm" onclick="cancelOrder('@product.ProductName',@product.Id)">Cancel order</button>
+                            @*<a class="btn btn-danger ml-2  btn-sm" asp-controller="ProductRelated" asp-action="CancelOrder" asp-route-id="@product.Id" >Cancel order</a>*@
+
                         }
                     </div>
                 </div>

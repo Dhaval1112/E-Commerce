@@ -47,7 +47,7 @@ namespace E_Commerce.Repository
         }
 
         
-        public async Task<bool> AddToCart(ProductModel product,string productStatus)
+        public async Task<int> AddToCart(ProductModel product,string productStatus)
         {
             try
             {
@@ -77,13 +77,13 @@ namespace E_Commerce.Repository
                 
 
                 await _context.SaveChangesAsync();
+                return cart.Id;                
             }
             catch (Exception)
             {
-
-                return false;
+                return 0;
+//                return false;
             }
-            return true;
 
 
         }
@@ -124,6 +124,11 @@ namespace E_Commerce.Repository
         }
 
 
+        public int getCartCount()
+        {
+            var products= productRepository.AllCartProducts("cart", 0);
+            return products == null ? 0 : products.Count; 
+        }
         public List<Order> GetAllOrders()
         {
             var userId=_userService.GetUserId();
@@ -158,6 +163,22 @@ namespace E_Commerce.Repository
             orderModel.Sales = 26;
             return orderModel;
            
+        }
+
+        public async Task<bool> CancelOrder(int id)
+        {
+            try
+            {
+                var order = await _context.Orders.Where(ord => ord.Id == id).FirstOrDefaultAsync();
+                order.OrderStatus = 0;
+                _context.Orders.Update(order);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

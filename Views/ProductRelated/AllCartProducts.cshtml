@@ -78,19 +78,20 @@
     
 }else
 { 
-    <div class="container  border shadow-sm">
+    <div class="container">
         <div class="row flex-row ">
-            <div class="col-md-8 order-2 order-lg-1 bg-light">
+            <div class="col-md-8 order-2 order-lg-1 ">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Cart items(@Model.Count)</h4>
+                    <div class="card-header bg-white flex-row">
+                        <h4 class="d-inline-block">Cart items(@Model.Count)</h4>
+                        <a  asp-controller="Home" asp-action="Index" class="text-secondary fw-bold float-end text-decoration-none pl-2"> Go To Home</a>
                     </div>
                     <div class="card-body">
 
                         @foreach (var item in Model)
                         {
                             // TODO: Working on opacity while insufficient stock
-                            <div class="mb-2 row border p-2  @(item.ProductDiscount==11?"opacity-50":"")">
+                            <div class="mb-2 row border p-2 @(item.Quantity > item.ProductStock ? "opacity-50 ":"not match" )" data-bs-toggle="tooltip" data-bs-placement="left" title="asd">
                                 <div class="col-3 col-sm-3 col-md-3 col-lg-2">
 
                                     <div class="cartListImageDiv border p-2">
@@ -99,16 +100,25 @@
                                 </div>
 
                                 @*7 in*@
-                                <div class="col-7 bg-light">
+                                <div class="col-7">
                                     <p class="fs-5 productName">
                                         @item.ProductName
                                     </p>
-                                    <p class="productSaler">Saler name: @item.ProductSaler</p>
+
+                                    <p class="opacity-100 text-danger">
+                                        @(item.Quantity > item.ProductStock ?"This product is out of stock stock..! so remove it or proceed without it.! " :"")
+                                    </p>
+                                    <p class="productSaler">Saler name: @item.ProductSaler  @item.ProductStock @item.Quantity</p>
 
                                     @{
 
-                                        GrandTotal +=(int)item.TotalPrice;
-                                        GrandDiscount += (int)item.TotalDiscount;
+
+                                        @if (item.ProductStock > item.Quantity)
+                                        {
+
+                                            GrandTotal +=(int)item.TotalPrice;
+                                            GrandDiscount += (int)item.TotalDiscount;
+                                        }
 
                                         <div>
                                             @*<p>Discount :: @item.TotalDiscount   TOTAL :: @item.TotalPrice</p>*@
@@ -197,12 +207,12 @@
                             <div class="px-5">
 
                                 <span class="fw-bold">Total Amount</span>
-                                <span class="fw-bold float-end">₹@(GrandTotal-GrandDiscount)</span>
+                                <span class="fw-bold float-end">@((GrandTotal-GrandDiscount).ToString("c"))</span>
                             </div>
                         <hr style="border: 1px dashed #C0C0C0" class="mx-3"/>
 
                         <div class="row px-4" >
-                            <a class="btn btn-danger text-uppercase fw-bold d-block placeOrderButton" >Place your order</a>
+                            <a class="btn btn-danger text-uppercase fw-bold d-block placeOrderButton" asp-controller="ProductRelated" asp-action="PlaceOrder">Place your order</a>
                         </div>
                     </div>
                 </div>

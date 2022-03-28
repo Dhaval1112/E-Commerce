@@ -2,6 +2,7 @@
 using E_Commerce.Areas.Admin.Repository;
 using E_Commerce.Models;
 using E_Commerce.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Controllers
 {
+
     public class ProductRelatedController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -37,10 +39,15 @@ namespace E_Commerce.Controllers
         public async Task<IActionResult> AddToCart(ProductModel product, string productStatus)
         {
 
-            
-            if (await _cartOrderRepository.AddToCart(product,productStatus))
+            var insertedCartId = await _cartOrderRepository.AddToCart(product, productStatus);
+            if (insertedCartId>0)
             {
                 TempData["IsAddedIntoCart"] = "True";
+                TempData["CartCount"] = _cartOrderRepository.getCartCount().ToString();
+                if (productStatus == "order")
+                {
+                    return RedirectToAction("PlaceOrder",new { orderId =insertedCartId});
+                }
             }
             else
             {
@@ -48,7 +55,7 @@ namespace E_Commerce.Controllers
             }
             return RedirectToAction("GetProduct",new { id=product.Id});
         }
-
+        [Authorize(Roles = "User,Admin")]
         public IActionResult AllCartProducts()
         {
             var carts=_productRepository.AllCartProducts("cart",0);
@@ -58,11 +65,12 @@ namespace E_Commerce.Controllers
         public async Task<IActionResult> RemoveFromCart(int cartId, string status)
         {
             var isRemoved = await _cartOrderRepository.RemoveCartProduct(cartId);
+            TempData["CartCount"] = _cartOrderRepository.getCartCount().ToString();
             TempData["IsRemoved"] = "True";
 
 
             // for checking that it's removed from cart or order page
-            return RedirectToAction(status == null ? "AllCartProducts": "PlaceOrder");
+            return RedirectToAction(status == null ? "AllCartProducts": "pandingorders");
             
         }
 
@@ -118,6 +126,20 @@ namespace E_Commerce.Controllers
         {
             var pandingOrders= _productRepository.AllCartProducts("order",0);
             return View(pandingOrders);
+        }
+
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            if (await _cartOrderRepository.CancelOrder(id))
+            {
+                TempData["IsOrderCancel"] = "True"; 
+            }
+            else
+            {
+                TempData["IsOrderCancel"] = "False"; 
+
+            }
+            return RedirectToAction("AllOrders");
         }
     }
 }

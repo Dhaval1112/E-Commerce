@@ -8,7 +8,7 @@
         <li class="nav-item">
             <a class="nav-link position-relative" asp-controller="ProductRelated" onclick="handleActive(this)" asp-action="AllCartProducts" asp-area="">
                 <i class="fa-solid fa-cart-shopping" ></i> Cart
-                <span class="badge bg-danger " >0</span>
+                <span class="badge bg-danger " >@TempData.Peek("CartCount")</span>
                 
 
             </a>
@@ -20,12 +20,16 @@
     <div class="dropdown my-2 ">
         <button class="btn dropdown-toggle btn-success" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-right-to-bracket me-2"></i>   @(User.FindFirst("UserFirstName").Value+" "+ @User.FindFirst("UserLastName").Value)
+            @* <i class="fa-solid fa-right-to-bracket me-2"></i>   @(User.FindFirst("UserRoles").Value)*@
         </button>
 
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-            <li><a class="dropdown-item" asp-controller="productrelated" asp-action="pandingorders"><i class="fa-solid fa-bag-shopping me-2"></i>Ramaining orders</a></li>
+            @if (User.FindFirst("UserRoles").Value.Contains("Admin")) { 
+            <li><a class="dropdown-item" asp-controller="Dashboard" asp-action="index" asp-area="admin"><i class="fa-solid fa-user-shield me-2"></i> Switch to admin</a></li>
+            }
+            <li><a class="dropdown-item" asp-controller="productrelated" asp-action="pandingorders"><i class="fa-solid fa-credit-card me-2"></i>Ramaining orders</a></li>
             <li><a class="dropdown-item" asp-controller="productrelated" asp-action="AllOrders"><i class="fa-solid fa-bag-shopping me-2"></i>  Orders</a></li>
             <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile"><i class="fa-solid fa-user me-2"></i>  Profile</a></li>
             <li><a class="dropdown-item" asp-controller="Account" asp-action="changePassword"><i class="fa-solid fa-lock me-2"></i> Change password</a></li>
