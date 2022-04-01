@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Category\Cover\" />
-    <Folder Include="wwwroot\img\carousel\" />
     <Folder Include="wwwroot\Product\Cover\" />
     <Folder Include="wwwroot\Product\Gallery\" />
   </ItemGroup>

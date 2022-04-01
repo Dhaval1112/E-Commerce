@@ -148,7 +148,7 @@ namespace E_Commerce.Repository
                 ProductSalerName=order.ProductSalerName,
                 ProcuctPrice = order.ProcuctPrice
 
-            }).ToList();
+            }).OrderByDescending(ord=>ord.Id).ToList();
 
             return orders;
         }

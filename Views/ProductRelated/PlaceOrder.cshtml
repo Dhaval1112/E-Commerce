@@ -76,9 +76,20 @@
     }
 
 </h1>
+@{
+    var productCount = 0;
+    foreach (var item in Model.Products)
+    {
+        if (item.ProductStock >= item.Quantity)
+        {
+            productCount++;
+        }
+    }
+}
 
 
-@if (Model.Products.Count == 0)
+
+@if (productCount== 0)
 {
     <div class="card container">
         <div class="card-body">
@@ -90,7 +101,7 @@
                     <img src="/svgs/Empty-bro.svg" alt="Alternate Text" />
                 </div>
                 <div class="text-center">
-                    <h3>Do not have account..!</h3>
+                    <h3>Does not having product..!</h3>
                     <p>You do not have any cart or early checkout product..!</p>
                 </div>
             </div>
@@ -194,12 +205,15 @@ else
                     <div class="col-lg-8 ">
                         <div class="card">
                             <div class="card-header bg-success text-white">
-                                <h4 class="mt-1"><span class="bg-white text-success mr-3 px-2">1</span> Order items(@Model.Products.Count)</h4>
+                                <h4 class="mt-1"><span class="bg-white text-success mr-3 px-2">1</span> Order items(@productCount)</h4>
                             </div>
                             <div class="card-body">
 
+                                
                                 @foreach (var item in Model.Products)
                                 {
+
+                                  
                                     @if (item.ProductStock > item.Quantity)
                                     {
                                     <div class="mb-2 row border m-2 py-2 rounded">
@@ -296,7 +310,7 @@ else
                         <!--Address detail ends here-->
                         <!--Payment details Start-->
 
-                        <div class="col-md-12 mt-3 ">
+                        <div class="col-md-12 my-3 ">
                             <div class="card shadow-sm">
 
                                 <div class="card-header">
@@ -354,7 +368,7 @@ else
                             <hr />
                             <div class="px-5 mb-3 ">
                                 <span class="me-auto ">
-                                    Price Details (@Model.Products.Count)
+                                    Price Details (@productCount)
                                 </span>
                                 <span class="float-end  ">
                                     ₹ @GrandTotal

@@ -24,8 +24,8 @@
     {
         <div class="alert alert-success d-flex align-items-center" role="alert">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>
-            
-            Profile data updated Successfully done..! 
+
+            Profile data updated Successfully done..!
             <div class="me-auto">
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -34,7 +34,8 @@
         Model.IsSuccess = false;
     }
 
-    <h1>Profile</h1>
+    <h1 class="d-inline">Profile</h1>
+    <a asp-action="index" asp-controller="home" class="float-end text-decoration-none text-secondary mx-2 fw-bold align-bottom d-inline">Go Back</a>
 
     <hr />
 
@@ -48,7 +49,7 @@
                     <img class="rounded-circle" width="100" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
                     <span class="font-weight-bold">@(Model?.FirstName+" "+Model?.LastName)</span>
                     <span style="word-wrap: anywhere;" class="text-black-50">@Model?.EmailAddress</span>
-                    
+
                 </div>
                 <div class=" offset-1 col-md-12 mt-5">
                     <div class="row w-80">
@@ -121,7 +122,7 @@
 
                 </div>
 
-                
+
             </div>
 
         </div>

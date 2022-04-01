@@ -13,7 +13,9 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @*For showing icons font awsome icons*@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
 
+    </script>
 
 </head>
 
@@ -32,7 +34,7 @@
     </svg>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-        <div class="bg-light" id="sidebar-wrapper">
+        <div class="bg-light " id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                 <i class="fa-solid fa-user-shield me-2"></i>Admin
             </div>
@@ -40,27 +42,22 @@
                 <a asp-area="admin" asp-controller="Dashboard" asp-action="index" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
-                <a asp-area="admin" asp-controller="product" asp-action="create" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-project-diagram me-2"></i>Projects | create product
-                </a>
                 <a asp-area="admin" asp-controller="product" asp-action="GetAllProducts" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-chart-line me-2"></i>Analytics | get all products
+                    <i class="fas fa-chart-line me-2"></i>Get all products
                 </a>
-                <a  asp-area="admin" asp-controller="category" asp-action="create" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-paperclip me-2"></i>category create
+                <a asp-area="admin" asp-controller="product" asp-action="create" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-project-diagram me-2"></i>Create product
                 </a>
                 <a asp-area="admin" asp-controller="category" asp-action="GetAllCategories" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-shopping-cart me-2"></i>all categories
                 </a>
+                <a asp-area="admin" asp-controller="category" asp-action="create" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-paperclip me-2"></i>Create category
+                </a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-gift me-2"></i>Products
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-comment-dots me-2"></i>Chat
-                </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-map-marker-alt me-2"></i>Outlet
-                </a>
+                
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
                     <i class="fas fa-power-off me-2"></i>Logout
                 </a>

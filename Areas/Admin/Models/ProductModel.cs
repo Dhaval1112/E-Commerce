@@ -34,7 +34,7 @@ namespace E_Commerce.Areas.Admin.Models
 
 
         //Quentity for adding product into quantity 
-        [Range(1, 5, ErrorMessage = "Quantity must between 1 to 5..!")]
+       /* [Range(1, 5, ErrorMessage = "Quantity must between 1 to 5..!")]*/
         public int Quantity { get; set; }
 
         //this is for showing product only
@@ -44,6 +44,7 @@ namespace E_Commerce.Areas.Admin.Models
         // To check if product already into cart or not??
         public bool IsInCart { get; set; }
         public bool IsInOrder { get; set; }
+        public int cartId { get; set; }
 
     }
 }

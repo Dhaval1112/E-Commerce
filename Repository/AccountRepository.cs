@@ -178,6 +178,11 @@ namespace E_Commerce.Repository
         }
 
 
+
+
+
+
+
         // for sending mail to client for confirming email address
         private async Task SendingMailForConfirmationEmail(ApplicationUser applicationUser, string token)
         {

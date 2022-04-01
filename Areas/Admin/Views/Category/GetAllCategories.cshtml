@@ -176,8 +176,8 @@ else
 <div class="table-responsive">
 
 
-    <table id="EmployeeTable" class="table  table-bordered table-hover rounded " style="width:100%">
-        <thead>
+    <table id="EmployeeTable" class="table  table-bordered table-hover rounded" style="width:100%">
+        <thead style="background-color: mediumseagreen; color: white; ">
             <tr>
 
                 <th scope="col">#</th>
@@ -225,8 +225,8 @@ else
                     <td>@product.SalerName</td>*@
 
     function getDetails(data, type, dataToSet) {
-        return `<button class="btn btn-info btn-sm" onclick="editFunction('EditProduct/${data.id}', '${data.categoryName}')">Edit</button> |
-                <button class="btn btn-danger btn-sm" onclick="deleteFunction('DeleteProduct/${data.id}', '${data.categoryName}')">Delete</button>
+        return `<button class="btn btn-info btn-sm" onclick="editFunction('EditCategory/${data.id}', '${data.categoryName}')">Edit</button> |
+                <button class="btn btn-danger btn-sm" onclick="deleteFunction('DeleteCategory/${data.id}', '${data.categoryName}')">Delete</button>
                 `
 
         //return data.id +' '+data.productName

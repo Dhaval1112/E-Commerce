@@ -4,7 +4,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-
+<script>
+    function redirectToCategories(categoryname) {
+        //alert(categoryname);
+        window.location = "/Home/SearchProductByName?categoryName=" + categoryname
+    }
+</script>
 
 
 
@@ -15,7 +20,7 @@
 
 
 
-    <h3 class="text-center">Offeres advertise</h3>
+    @*<h3 class="text-center">Offeres advertise</h3>*@
     <div id="carouselExampleControls" class="carousel slide shadow-sm" data-bs-ride="carousel">
         <div class="carousel-inner rounded">
             <div class="carousel-item rounded">
@@ -59,10 +64,15 @@
 
     <div class="container px-2">
         <h4 class="text-center my-3">Categories</h4>
+        <div class="text-center justify-content-center ml-5 d-flex align-items-center mb-2" >
+            <p style="height:10px; width:50px; background-color:green; border-radius:5px; opacity:0.8;" >
+                
+            </p>
+        </div>
         <div class="row">
             @foreach (var category in Model.Categories)
             {
-                <div class="col-sm-4 col-md-3 mb-2 col-6">
+                <div class="col-sm-4 col-md-3 mb-2 col-6" onclick="redirectToCategories('@category.CategoryName')" style="cursor:pointer">
                     <div class="card bgImage border shadow-sm" style="background-image:url(@category.CoverImageUrl)">
                         <h3 class="categoryHeading ">
                             @category.CategoryName
@@ -70,7 +80,7 @@
                     </div>
                 </div>
             }
-            <div class="col-sm-4 col-md-3 mb-2 col-6">
+            @*<div class="col-sm-4 col-md-3 mb-2 col-6">
                 <div class="card bgImage border shadow-sm">
                     <h3 class="categoryHeading ">
                         Chilli
@@ -98,7 +108,7 @@
                     </h3>
                 </div>
             </div>
-
+*@
 
         </div>
 
@@ -111,26 +121,26 @@
 
     <div class="container px-2">
         <h4 class="text-center my-3">Adverticement of products</h4>
+        <div class="text-center justify-content-center ml-5 d-flex align-items-center mb-2">
+            <p style="height:10px; width:90px; background-color:green; border-radius:5px; opacity:0.8;">
+
+            </p>
+        </div>
         <div class="row">
 
             <div class="col-md-6">
-                <div class="card m-2">
+                <div class="card m-2 shadow-sm">
 
-                    <div class="card-body">
-                        <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
-
-                    </div>
+                    <img style="border-radius:3px;" src="/img/carousel/Freshvagitable banners.svg" class="img-fluid" alt="Alternate Text" />
 
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="card m-2">
+            <div class="col-md-6 ">
+                <div class="card m-2 shadow-sm">
 
-                    <div class="card-body">
-                        <img src="https://thumbs.dreamstime.com/b/word-fruits-made-fruits-20779888.jpg" class="img-fluid" alt="Alternate Text" />
+                        <img style="border-radius:3px;" src="/img/carousel/orange-juice-drink-menu-promotion-instagram-post-banner-template-with-nature-blur-tree-background_502896-98 1.svg" class="img-fluid" alt="Alternate Text" />
 
-                    </div>
 
                 </div>
             </div>
@@ -146,6 +156,11 @@
 
 <div class="container ">
     <h4 class="text-center my-4">Top Products</h4>
+    <div class="text-center justify-content-center ml-5 d-flex align-items-center mb-3">
+        <p style="height:10px; width:50px; background-color:green; border-radius:5px; opacity:0.8;">
+
+        </p>
+    </div>
     <div class="row">
         @foreach (var product in Model.Products)
         {

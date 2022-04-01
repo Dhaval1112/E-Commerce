@@ -40,8 +40,11 @@ namespace E_Commerce
 
 
             services.ConfigureApplicationCookie(configure => {
-                configure.LoginPath = Configuration["Application:LoginPath"]; 
+                configure.LoginPath = Configuration["Application:LoginPath"];
+                configure.AccessDeniedPath = "/home/index";
+                
             });
+            
                 //Configuration["Application:LoginPath"];
 
             services.Configure<IdentityOptions>(options =>
@@ -77,6 +80,17 @@ namespace E_Commerce
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/home/notfound";
+                    await next();
+                }
+            });
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,6 +103,7 @@ namespace E_Commerce
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            //app.UseStatusCodePagesWithRedirects();
 
             app.UseRouting();
 

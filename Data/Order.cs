@@ -38,5 +38,6 @@ namespace E_Commerce.Data
 
         // -------------Order-------------------
         public int OrderStatus { get; set; }
+        public DateTime OrderDate { get; set; }
     }
 }

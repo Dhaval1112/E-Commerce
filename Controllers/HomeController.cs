@@ -51,10 +51,18 @@ namespace E_Commerce.Controllers
         }
         
 
-        public IActionResult SearchProductByName(string productName)
+        [AllowAnonymous]
+        public IActionResult SearchProductByName(string productName,string categoryName)
         {
-            var products = _productRepository.SearchProduct(productName);
-            return View(products);       
+            if (productName != null)
+            {
+
+                return View( _productRepository.SearchProduct(productName));
+            }
+            else
+            {
+                return View(_productRepository.SearchProductByCategoryName(categoryName));
+            }
         }
 
     
@@ -63,7 +71,7 @@ namespace E_Commerce.Controllers
             For multiple roles
          */
 
-        
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();

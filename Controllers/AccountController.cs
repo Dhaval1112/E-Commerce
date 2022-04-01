@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace E_Commerce.Controllers
 {
 
+    [Authorize(Roles ="Admin,User")]
     public class AccountController : Controller
     {
         private readonly IAccountRepository _accountRepository;
@@ -57,8 +58,8 @@ namespace E_Commerce.Controllers
             return View(user);
 
         }
-
         /*Login for returning view*/
+        [AllowAnonymous]
         public IActionResult Login()
         {
             if (_userService.IsAuthanticated())
@@ -74,7 +75,7 @@ namespace E_Commerce.Controllers
         }
 
         /*For getting data*/
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel model,string returnUrl)
         {
             if (ModelState.IsValid)
@@ -94,6 +95,7 @@ namespace E_Commerce.Controllers
                         }
                         else
                         {
+                            
                             return RedirectToRoute(new { action = "Index", controller = "Dashboard", area = "admin" });
                         }
 
@@ -117,14 +119,16 @@ namespace E_Commerce.Controllers
             return View();
         }
 
-        /*For returning view*/
         [Route("signup")]
+        [AllowAnonymous]
+        /*For returning view*/
         public IActionResult SignUp()
         {
             return View();
         }
 
         /*For getting data*/
+        [AllowAnonymous]
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(SignUpUserModel userModel)
         {
@@ -154,7 +158,6 @@ namespace E_Commerce.Controllers
         }
              
         [Route("logout")]
-        [Authorize(Roles ="Admin,User")]
         public async Task<IActionResult> Logout()
         {
 
@@ -198,6 +201,7 @@ namespace E_Commerce.Controllers
 
 
         [HttpGet("confirm-email")]
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
         {
             EmailConfirmModel model = new EmailConfirmModel
@@ -219,6 +223,7 @@ namespace E_Commerce.Controllers
 
         
         [HttpPost("confirm-email")]
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(EmailConfirmModel emailConfirmModel)
         {
             var user = await _accountRepository.GetUSerByEmailAsync(emailConfirmModel.Email);
@@ -248,7 +253,7 @@ namespace E_Commerce.Controllers
             return View();
         }
 
-        [HttpPost("forgot-password")]
+        [HttpPost("forgot-password"),AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgetPasswordModel model)
         {
             if (ModelState.IsValid)
@@ -279,7 +284,7 @@ namespace E_Commerce.Controllers
             return View(resetPaswordModel);
         }
 
-        [HttpPost("reset-password")]
+        [HttpPost("reset-password"),AllowAnonymous]
         public async Task<IActionResult> resetPassword(ResetPaswordModel model)
         {
             if (ModelState.IsValid)

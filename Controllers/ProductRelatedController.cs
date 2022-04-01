@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 namespace E_Commerce.Controllers
 {
 
+    [Authorize(Roles = "Admin,User")]
+
     public class ProductRelatedController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -23,6 +25,7 @@ namespace E_Commerce.Controllers
             this._productRepository = productRepository;
             this._cartOrderRepository = cartOrderRepository;
         }
+        [AllowAnonymous]
         public IActionResult GetProduct(int id)
         {
 
@@ -30,6 +33,7 @@ namespace E_Commerce.Controllers
             return View(product);
         }
 
+        [AllowAnonymous]
         public IActionResult GetProductDetails(int id)
         {
             var product = _productRepository.GetProductModel(id);
@@ -55,7 +59,6 @@ namespace E_Commerce.Controllers
             }
             return RedirectToAction("GetProduct",new { id=product.Id});
         }
-        [Authorize(Roles = "User,Admin")]
         public IActionResult AllCartProducts()
         {
             var carts=_productRepository.AllCartProducts("cart",0);
@@ -74,9 +77,11 @@ namespace E_Commerce.Controllers
             
         }
 
+
         //this view only for select options like address,payment method, etc
         public IActionResult PlaceOrder(int? orderId)
-        {
+        {  
+
             if(orderId == null)
             {
                 // when we do want to checkout from cart page
@@ -95,6 +100,7 @@ namespace E_Commerce.Controllers
 
         //this is for placing order 
         [HttpPost]
+
         public IActionResult PlaceOrder(PlaceOrderModel placeOrderModel)
         {
             var order = _cartOrderRepository.GetPlaceOrderModel(placeOrderModel.CartProductId);
@@ -106,7 +112,7 @@ namespace E_Commerce.Controllers
             return View(order);
         }
 
-
+        
         // this is for getting all ordered products by this user
         public  IActionResult AllOrders()
         {

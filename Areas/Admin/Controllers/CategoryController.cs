@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace E_Commerce.Areas.Admin.Controllers
 {
     [Area("admin")]
-    /*[Authorize(Roles = "User")]*/
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;

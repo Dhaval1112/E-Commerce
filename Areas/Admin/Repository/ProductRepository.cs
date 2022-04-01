@@ -128,6 +128,7 @@ namespace E_Commerce.Areas.Admin.Repository
                 {
 
                     product.IsInOrder = isInOrderResult.CartStatus == (int)AddTo.Order;
+                    product.cartId = isInOrderResult.Id;
                 }
 
                 return product;
@@ -317,6 +318,7 @@ namespace E_Commerce.Areas.Admin.Repository
                                                     Id = cart.Id,
                                                     ProductId = cart.ProductId,
                                                     ProductName = cart.Product.ProductName,
+                                                    ProductStock=cart.Product.Stock,
                                                     Quantity = cart.Quantity,
                                                     ProductDescription = cart.Product.Description,
                                                     Date = cart.Date,
@@ -360,7 +362,27 @@ namespace E_Commerce.Areas.Admin.Repository
             return products;
             
         }
+        public List<ProductModel> SearchProductByCategoryName(string categoryname)
+        {
 
-        
+            var products = _context.Products.Where(product => product.Category.CategoryName == categoryname ).Select(product =>
+                new ProductModel()
+                {
+
+                    Id = product.Id,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    CoverImageUrl = product.CoverImageUrl,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    Discount = product.Discount,
+                    SalerName = product.SalerName,
+
+                }).ToList();
+            return products;
+
+
+        }
+
     }
 }

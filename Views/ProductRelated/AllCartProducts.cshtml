@@ -91,7 +91,7 @@
                         @foreach (var item in Model)
                         {
                             // TODO: Working on opacity while insufficient stock
-                            <div class="mb-2 row border p-2 @(item.Quantity > item.ProductStock ? "opacity-50 ":"not match" )" data-bs-toggle="tooltip" data-bs-placement="left" title="asd">
+                            <div class="mb-2 row border p-2 @(item.Quantity > item.ProductStock ? "opacity-50 ":"not match" )" data-bs-toggle="tooltip" data-bs-placement="left" title="">
                                 <div class="col-3 col-sm-3 col-md-3 col-lg-2">
 
                                     <div class="cartListImageDiv border p-2">
@@ -108,7 +108,7 @@
                                     <p class="opacity-100 text-danger">
                                         @(item.Quantity > item.ProductStock ?"This product is out of stock stock..! so remove it or proceed without it.! " :"")
                                     </p>
-                                    <p class="productSaler">Saler name: @item.ProductSaler  @item.ProductStock @item.Quantity</p>
+                                    <p class="productSaler">Saler name: @item.ProductSaler  
 
                                     @{
 
@@ -210,10 +210,13 @@
                                 <span class="fw-bold float-end">@((GrandTotal-GrandDiscount).ToString("c"))</span>
                             </div>
                         <hr style="border: 1px dashed #C0C0C0" class="mx-3"/>
+                        @if (GrandTotal > 0)
+                        {
 
                         <div class="row px-4" >
                             <a class="btn btn-danger text-uppercase fw-bold d-block placeOrderButton" asp-controller="ProductRelated" asp-action="PlaceOrder">Place your order</a>
                         </div>
+                        }
                     </div>
                 </div>
             </div>

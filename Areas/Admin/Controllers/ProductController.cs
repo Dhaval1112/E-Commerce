@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Areas.Admin.Data;
 using E_Commerce.Areas.Admin.Models;
 using E_Commerce.Areas.Admin.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace E_Commerce.Areas.Admin.Controllers
 {
     [Area("admin")]
+    [Authorize(Roles ="Admin")]
     public class ProductController : Controller
     {
 
