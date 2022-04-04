@@ -157,7 +157,7 @@ namespace E_Commerce.Repository
         {
 
             OrderModel orderModel = new OrderModel();
-            orderModel.orders = _context.Orders.ToList();
+            orderModel.orders = _context.Orders.OrderByDescending(ord=>ord.Id).ToList();
             orderModel.numberOfOrders = orderModel.orders.Count;
             orderModel.numberOfProducts = _context.Products.ToList().Count;
             orderModel.Sales = 26;
